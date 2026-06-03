@@ -116,7 +116,21 @@ Now humanize this draft and fact-check the claims:
 [paste draft]
 ```
 
-If you do not provide a sample, the skill should offer to use one before it falls back to a generic natural voice. Good sources include pasted writing, local notes, exported posts, chat/email archives, or a social account connector when your host agent supports one and you explicitly approve it.
+If you do not provide a sample, the skill should offer to use one before it falls back to a generic natural voice. Good sources include pasted writing, local notes, exported posts, chat/email archives, or a connector when your host agent supports one and you explicitly approve it.
+
+Connector availability depends on the host:
+
+| Source | Codex official skills | Claude official connectors | Notes for voice profiling |
+| --- | --- | --- | --- |
+| Gmail | Not in the OpenAI skills catalog | Supported | Strong source for sent-mail style when explicitly authorized |
+| Slack | Workflow/integration capability, not a catalog skill | Supported | Strong source for casual/team voice and decision language |
+| Google Drive | Not in the OpenAI skills catalog | Supported | Useful for docs, notes, essays, and long-form style |
+| Google Calendar | Not in the OpenAI skills catalog | Supported | Useful context, not usually a primary writing-style source |
+| Microsoft 365 | Not in the OpenAI skills catalog | Supported | Useful for Outlook/Docs style when available |
+| GitHub | Supported through skills/plugins | Supported | Good for technical style, PR comments, issues, and README tone |
+| X/Twitter, LinkedIn, Instagram, Facebook | No official first-party skill found | No first-party connector found | Use exports, browser-visible content, or custom/third-party MCP connectors |
+
+For personal style cloning, Claude's first-party Gmail, Slack, and Drive connectors are usually the strongest official path. Codex is more flexible when you provide exports or build a custom MCP/skill bundle.
 
 To make the fact-check pass stronger, provide evidence:
 
@@ -418,6 +432,10 @@ The helper uses only the Python standard library.
 
 ## References
 
+- [OpenAI skills catalog](https://github.com/openai/skills): official Codex skills catalog and installable skill structure.
+- [Claude Connectors overview](https://claude.com/docs/connectors/overview): first-party connectors, MCP-based connectors, plugins, and Claude Code connector availability.
+- [Claude Gmail connector](https://claude.com/connectors/gmail): Gmail search, summarization, information surfacing, and draft-reply workflow.
+- [Claude Slack integration](https://claude.com/docs/connectors/slack): Slack search and workspace context access.
 - [blader/humanizer](https://github.com/blader/humanizer): installation and usage clarity, AI-writing pattern catalog, and full before/after examples.
 - [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing): pattern source used by `blader/humanizer` and WikiProject AI Cleanup.
 - [tinyhumansai/openhuman](https://github.com/tinyhumansai/openhuman): local-first user context, source adapters, and provenance ideas.

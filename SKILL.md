@@ -59,7 +59,15 @@ Before using the default voice, check whether the user has provided real writing
 - point to local notes, posts, emails, chat exports, or social-media exports
 - explicitly ask the host agent to use an available connector for a social account or writing source
 
-Do not block the rewrite if the user wants to proceed without samples. Do not connect to live accounts or fetch social data without explicit permission.
+Use the host-specific source guidance:
+
+- **Codex**: do not imply an official Gmail, X/Twitter, LinkedIn, Instagram, Facebook, Microsoft 365, or Google Drive skill exists in the OpenAI skills catalog unless the current environment actually exposes one. Treat Codex inbox or Slack use cases as integrations/workflows, not as proof of a `SKILL.md` skill. Prefer pasted samples, local files, exported archives, or a user-provided/custom MCP connector.
+- **Claude / Claude Code**: when available and explicitly authorized, prefer first-party connectors for Gmail, Slack, Google Drive, Google Calendar, GitHub, and Microsoft 365. Gmail and Slack can be strong real-voice sources because they expose historical user-authored communication. Claude connectors are MCP-based, so third-party, enterprise, or self-built MCP connectors may also provide X/Twitter, LinkedIn, Instagram, Facebook, or internal-source access.
+- **OpenCode or unknown hosts**: prefer local samples and exports unless the host exposes a connector or MCP server in the active tool list.
+
+For style cloning, recommend sources in this order when available: sent emails or Gmail history, Slack/DM messages, long-form docs or notes, social posts, chat exports, then small pasted samples. Keep a compact profile and provenance; do not store or echo raw private material unless the user asks.
+
+Do not block the rewrite if the user wants to proceed without samples. Do not connect to live accounts, fetch social data, read email, or search private messages without explicit permission.
 
 If samples are present, analyze them before rewriting:
 

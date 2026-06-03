@@ -5,9 +5,27 @@
 ## Preferred order
 
 1. Pasted writing sample.
-2. Local files selected by the user.
-3. Exported account archives selected by the user.
-4. Host-agent connectors, only after explicit permission.
+2. Official host connectors, only after explicit permission.
+3. Local files selected by the user.
+4. Exported account archives selected by the user.
+5. Custom or third-party MCP connectors, only after explicit permission.
+
+## Host connector guidance
+
+Connector support is host-specific.
+
+- **Codex**: OpenAI's official skills catalog currently does not provide Gmail, X/Twitter, LinkedIn, Instagram, Facebook, Microsoft 365, or Google Drive personal-voice ingestion skills. Codex can still use pasted samples, local files, exported archives, or custom MCP/skill bundles. Treat inbox and Slack use cases as integrations/workflows unless a concrete tool or connector is exposed in the current environment.
+- **Claude / Claude Code**: Claude's official connector ecosystem includes first-party connectors for Gmail, Slack, Google Drive, Google Calendar, GitHub, and Microsoft 365. These can be excellent sources for real-user voice when the user explicitly authorizes access. Claude connectors are MCP-based, so third-party, enterprise, or self-built MCP connectors can extend to other platforms.
+- **Social platforms**: no first-party X/Twitter, LinkedIn, Instagram, or Facebook connector should be assumed. Use platform export archives, browser-visible content with user approval, or a custom/third-party MCP connector.
+
+Best voice sources, when available:
+
+1. Sent emails or Gmail history.
+2. Slack/DM messages.
+3. Long-form docs, notes, essays, or Google Drive files.
+4. Social posts and replies.
+5. Chat exports.
+6. Short pasted samples.
 
 ## Supported local formats
 
