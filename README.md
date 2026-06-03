@@ -97,26 +97,44 @@ OpenCode also scans `~/.claude/skills/` for compatibility, so one clone into `~/
 
 ## Usage
 
-Ask your agent to use the skill by name:
+The simplest flow is the same as `humanizer`: invoke the skill and paste the text.
+
+### Just Paste Text
 
 ```text
-Use humanize-skill on this draft:
+Use humanize-skill:
+
+[paste the AI-looking text here]
+```
+
+Or ask directly:
+
+```text
+Please humanize this text:
 [paste text]
 ```
 
-To match your own voice, include a sample:
+This runs the default pass: remove AI-writing residue, preserve meaning, and flag factual claims that need evidence.
+
+### Voice Calibration
+
+To match your own voice, add one short writing sample:
 
 ```text
 Use humanize-skill.
 
 Here is my writing sample:
-[paste 2-3 paragraphs, or point to local/social export files]
+[paste 2-3 paragraphs of your own writing]
 
 Now humanize this draft and fact-check the claims:
 [paste draft]
 ```
 
-If you do not provide a sample, the skill should offer to use one before it falls back to a generic natural voice. Good sources include pasted writing, local notes, exported posts, chat/email archives, or a connector when your host agent supports one and you explicitly approve it.
+The skill should not block a simple rewrite when no sample is provided. It should use the default voice first, then offer calibration when the user wants stronger personal matching.
+
+### Stronger Real-Voice Sources
+
+For a better voice profile, provide local notes, exported posts, chat/email archives, or a connector when your host agent supports one and you explicitly approve it.
 
 Connector availability depends on the host:
 

@@ -53,9 +53,11 @@ Do not add flair to technical, legal, medical, encyclopedic, or reference text u
 
 ### 2. Build a voice profile
 
-Before using the default voice, check whether the user has provided real writing samples. If not, briefly offer better calibration options:
+Accept the lightweight `humanizer`-style flow first: if the user pastes only the draft, humanize it immediately using the natural default voice. Do not interrupt a simple rewrite request just to demand personal samples.
 
-- paste 2-3 paragraphs of their own writing
+If the user wants stronger voice matching, or if the request mentions "my voice", "like me", "personal style", "社媒", "邮箱", "真实语料", or similar, ask for one of these calibration sources:
+
+- paste one short sample, ideally 2-3 paragraphs of their own writing
 - point to local notes, posts, emails, chat exports, or social-media exports
 - explicitly ask the host agent to use an available connector for a social account or writing source
 

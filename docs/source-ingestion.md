@@ -4,10 +4,16 @@
 
 ## Preferred order
 
+For the quickest `humanizer`-style flow:
+
+1. A pasted draft only. Use the default natural voice and do not block.
+
+For stronger personal voice matching:
+
 1. Pasted writing sample.
-2. Official host connectors, only after explicit permission.
-3. Local files selected by the user.
-4. Exported account archives selected by the user.
+2. Local files selected by the user.
+3. Exported account archives selected by the user.
+4. Official host connectors, only after explicit permission.
 5. Custom or third-party MCP connectors, only after explicit permission.
 
 ## Host connector guidance
