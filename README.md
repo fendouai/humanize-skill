@@ -116,6 +116,8 @@ Now humanize this draft and fact-check the claims:
 [paste draft]
 ```
 
+If you do not provide a sample, the skill should offer to use one before it falls back to a generic natural voice. Good sources include pasted writing, local notes, exported posts, chat/email archives, or a social account connector when your host agent supports one and you explicitly approve it.
+
 To make the fact-check pass stronger, provide evidence:
 
 ```text

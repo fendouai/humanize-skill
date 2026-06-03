@@ -53,6 +53,14 @@ Do not add flair to technical, legal, medical, encyclopedic, or reference text u
 
 ### 2. Build a voice profile
 
+Before using the default voice, check whether the user has provided real writing samples. If not, briefly offer better calibration options:
+
+- paste 2-3 paragraphs of their own writing
+- point to local notes, posts, emails, chat exports, or social-media exports
+- explicitly ask the host agent to use an available connector for a social account or writing source
+
+Do not block the rewrite if the user wants to proceed without samples. Do not connect to live accounts or fetch social data without explicit permission.
+
 If samples are present, analyze them before rewriting:
 
 - sentence length: short, long, mixed
