@@ -1,0 +1,15 @@
+[project]
+name = "humanize-skill"
+version = "0.1.0"
+description = "A lightweight skill for humanizing AI-looking text with voice profiling and fact checks."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "humanize-skill contributors" }]
+
+[project.scripts]
+humanize-skill = "scripts.humanize_skill:main"
+
+[tool.setuptools]
+packages = ["scripts"]
+
