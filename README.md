@@ -50,6 +50,80 @@ Good humanized writing needs three things at once:
 - **Zero dependency CLI**: standard-library Python helper for repeatable audits and tests.
 - **Skill-native workflow**: the main product is [SKILL.md](./SKILL.md), ready to install in Codex/Claude Code/OpenCode-style environments.
 
+## Installation
+
+### Codex
+
+Clone directly into Codex's skills directory:
+
+```bash
+mkdir -p ~/.codex/skills
+git clone https://github.com/fendouai/humanize-skill.git ~/.codex/skills/humanize-skill
+```
+
+Or copy the skill file manually if you already have this repo cloned:
+
+```bash
+mkdir -p ~/.codex/skills/humanize-skill
+cp SKILL.md ~/.codex/skills/humanize-skill/
+```
+
+### Claude Code
+
+Clone directly into Claude Code's skills directory:
+
+```bash
+mkdir -p ~/.claude/skills
+git clone https://github.com/fendouai/humanize-skill.git ~/.claude/skills/humanize-skill
+```
+
+Or copy the skill file manually:
+
+```bash
+mkdir -p ~/.claude/skills/humanize-skill
+cp SKILL.md ~/.claude/skills/humanize-skill/
+```
+
+### OpenCode
+
+Clone directly into OpenCode's skills directory:
+
+```bash
+mkdir -p ~/.config/opencode/skills
+git clone https://github.com/fendouai/humanize-skill.git ~/.config/opencode/skills/humanize-skill
+```
+
+OpenCode also scans `~/.claude/skills/` for compatibility, so one clone into `~/.claude/skills/humanize-skill/` can be enough if you use both tools.
+
+## Usage
+
+Ask your agent to use the skill by name:
+
+```text
+Use humanize-skill on this draft:
+[paste text]
+```
+
+To match your own voice, include a sample:
+
+```text
+Use humanize-skill.
+
+Here is my writing sample:
+[paste 2-3 paragraphs, or point to local/social export files]
+
+Now humanize this draft and fact-check the claims:
+[paste draft]
+```
+
+To make the fact-check pass stronger, provide evidence:
+
+```text
+Use humanize-skill on draft.md.
+Use my samples in samples/ and verify claims against evidence/.
+Save the final rewrite and a compact claim table.
+```
+
 ## How it works
 
 ```mermaid
@@ -66,6 +140,33 @@ flowchart LR
 ```
 
 The fact-checker is intentionally conservative. It does not mark a claim as supported just because scattered search results contain overlapping keywords. A single reference must independently support enough of the claim.
+
+## Patterns Detected
+
+The pattern list is inspired by `blader/humanizer`'s README style, but extended for user voice and fact-checking. The goal is not to make text quirky. The goal is to remove generic AI residue, preserve the user's rhythm, and avoid unsupported confidence.
+
+| Area | Pattern | AI-looking version | Humanized handling |
+| --- | --- | --- | --- |
+| Content | Significance inflation | "a pivotal moment in the broader landscape" | Say the actual change or remove the claim |
+| Content | Promotional language | "groundbreaking, seamless, must-have" | Use concrete product behavior |
+| Content | Vague authority | "experts say", "industry reports suggest" | Name the source or mark `needs_evidence` |
+| Content | Superficial analysis | "showcasing", "underscoring", "reflecting" | Explain the mechanism or cut the flourish |
+| Content | False ranges | "from X to Y" without a real scale | List the actual cases |
+| Language | Copula avoidance | "serves as", "stands as", "boasts" | Prefer "is", "has", or a specific verb |
+| Language | Negative parallelism | "not just X, but Y" | State the point directly |
+| Language | Forced trios | "innovative, scalable, and seamless" | Keep only the real attributes |
+| Language | Synonym cycling | "tool, platform, solution, system" | Repeat the clearest noun |
+| Language | Filler | "in order to", "due to the fact that" | Use "to" and "because" |
+| Style | Chatbot residue | "Great question", "hope this helps" | Remove it |
+| Style | Decorative formatting | Excessive bold, emojis, Title Case | Use plain formatting unless the surface needs it |
+| Style | Em dash habit | Long clauses joined with dashes | Use periods, commas, or parentheses |
+| Style | Generic conclusions | "The future looks bright" | End with the specific implication |
+| Voice | Generic friendliness | Polished but placeless SaaS tone | Match the user's sample rhythm and diction |
+| Voice | Fake personality | Invented excitement or personal experience | Keep only what the user supplied |
+| Voice | Over-cleaning | Every sentence becomes smooth and neutral | Preserve useful roughness or shorthand |
+| Facts | Unsupported specificity | "cuts editing time in half" | Cite, soften, or remove |
+| Facts | Current or risky claims | Product, legal, medical, financial, schedule claims | Verify with current primary sources |
+| Facts | Perfect certainty | "verifies every fact" | Describe the actual review limit |
 
 ## Quick start
 
@@ -312,6 +413,18 @@ The helper uses only the Python standard library.
 - Add CI-oriented exit codes for unsupported or possibly wrong claims.
 - Add more archive readers for common chat/social export formats.
 - Add examples showing voice profiles from bilingual samples.
+
+## References
+
+- [blader/humanizer](https://github.com/blader/humanizer): installation and usage clarity, AI-writing pattern catalog, and full before/after examples.
+- [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing): pattern source used by `blader/humanizer` and WikiProject AI Cleanup.
+- [tinyhumansai/openhuman](https://github.com/tinyhumansai/openhuman): local-first user context, source adapters, and provenance ideas.
+- [Oumi HallOumi](https://oumi.ai/blog/introducing-halloumi-a-state-of-the): claim extraction, evidence checks, citations, and support labels.
+
+## Version History
+
+- 0.2.0 - Added Codex-run examples with saved intermediate artifacts, a new README hero focused on user inputs and fact verification, a review CLI command, and README sections modeled after `blader/humanizer`'s install/use/pattern clarity.
+- 0.1.0 - Initial skill workflow with AI-pattern cleanup, voice profiling, local source ingestion, and lightweight fact-checking.
 
 ## License
 
