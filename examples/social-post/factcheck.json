@@ -1,0 +1,42 @@
+[
+  {
+    "claim": "Small ship: I made a skill for cleaning up AI-looking drafts.",
+    "status": "style_only",
+    "confidence": 1.0,
+    "source_type": "none",
+    "matched_terms": [],
+    "references": []
+  },
+  {
+    "claim": "You can give it your own samples or exported posts, and it builds a compact voice profile instead of storing the raw mess forever.",
+    "status": "style_only",
+    "confidence": 1.0,
+    "source_type": "none",
+    "matched_terms": [],
+    "references": []
+  },
+  {
+    "claim": "Then it rewrites the draft and checks the factual claims before you publish.",
+    "status": "needs_evidence",
+    "confidence": 0.35,
+    "source_type": "provided_evidence",
+    "matched_terms": [],
+    "references": []
+  },
+  {
+    "claim": "Not magic.",
+    "status": "style_only",
+    "confidence": 1.0,
+    "source_type": "none",
+    "matched_terms": [],
+    "references": []
+  },
+  {
+    "claim": "Mostly just a useful little checklist: voice first, facts second, no fake confidence.",
+    "status": "style_only",
+    "confidence": 1.0,
+    "source_type": "none",
+    "matched_terms": [],
+    "references": []
+  }
+]

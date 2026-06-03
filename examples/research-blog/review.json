@@ -1,0 +1,79 @@
+{
+  "audit": [
+    {
+      "pattern": "inflated_significance",
+      "match": "landscape",
+      "message": "Inflated significance or generic AI vocabulary.",
+      "snippet": "In today's rapidly evolving landscape, AI humanization is more important than ever. Stu"
+    }
+  ],
+  "profile": {
+    "sample_count": 1,
+    "sources": [
+      "examples/research-blog/sample.txt"
+    ],
+    "word_count": 31,
+    "sentence_count": 4,
+    "avg_sentence_words": 7.75,
+    "sentence_rhythm": "short",
+    "paragraph_style": "brief",
+    "punctuation": {
+      ".": 4,
+      ",": 1,
+      "!": 0,
+      "?": 0,
+      ";": 0,
+      ":": 0,
+      "(": 0,
+      ")": 0,
+      "-": 0,
+      "—": 0
+    },
+    "top_words": [
+      "like",
+      "essays",
+      "start",
+      "actual",
+      "problem",
+      "fake",
+      "stats",
+      "universal",
+      "claims",
+      "give",
+      "tension",
+      "tell",
+      "what",
+      "tool",
+      "does"
+    ],
+    "likely_tone": [
+      "personal",
+      "direct"
+    ]
+  },
+  "rewrite": "In today's rapidly evolving landscape, AI humanization is more important than ever. Studies show that humanized copy increases reader trust by 87%, and tools that verify claims eliminate hallucinations. This article explores a revolutionary approach that blends authentic voice modeling with rigorous factuality, transforming how every writer publishes online.",
+  "factcheck": [
+    {
+      "claim": "In today's rapidly evolving landscape, AI humanization is more important than ever.",
+      "status": "needs_evidence",
+      "confidence": 0.35,
+      "source_type": "provided_evidence",
+      "matched_terms": [],
+      "references": []
+    },
+    {
+      "claim": "Studies show that humanized copy increases reader trust by 87%, and tools that verify claims eliminate hallucinations.",
+      "status": "needs_evidence",
+      "confidence": 0.35,
+      "source_type": "provided_evidence",
+      "matched_terms": [
+        "claims",
+        "eliminate",
+        "hallucinations",
+        "reader",
+        "trust"
+      ],
+      "references": []
+    }
+  ]
+}

@@ -34,6 +34,7 @@ The local helper writes inspectable JSON:
 ```json
 {
   "sample_count": 3,
+  "sources": ["samples/email.txt", "samples/posts.jsonl"],
   "word_count": 1200,
   "sentence_count": 80,
   "avg_sentence_words": 15.2,
@@ -46,4 +47,3 @@ The local helper writes inspectable JSON:
 ```
 
 Agents should use this profile as guidance, not as a rigid template.
-

@@ -60,6 +60,7 @@ STOPWORDS = {
 @dataclass
 class VoiceProfile:
     sample_count: int
+    sources: list[str]
     word_count: int
     sentence_count: int
     avg_sentence_words: float
@@ -140,9 +141,19 @@ def sentences(text: str) -> list[str]:
 
 def normalize_markdown_for_sentences(text: str) -> str:
     lines: list[str] = []
+    in_fence = False
     for line in text.splitlines():
         stripped = line.strip()
+        if stripped.startswith("```"):
+            in_fence = not in_fence
+            lines.append("")
+            continue
+        if in_fence:
+            continue
         if not stripped:
+            lines.append("")
+            continue
+        if stripped.startswith("<") and stripped.endswith(">"):
             lines.append("")
             continue
         if re.match(r"^#{1,6}\s+", stripped):
@@ -178,6 +189,7 @@ def build_profile(paths: Sequence[Path]) -> VoiceProfile:
     tone = infer_tone(merged, avg, punctuation)
     return VoiceProfile(
         sample_count=len(paths),
+        sources=[str(path) for path in paths],
         word_count=len(tokenized),
         sentence_count=len(sents),
         avg_sentence_words=round(avg, 2),
@@ -248,7 +260,7 @@ def claim_like(sentence: str) -> bool:
         return False
     if re.search(r"\b(i think|i feel|in my opinion|should|prefer|like|love|hate)\b", sentence, re.I):
         return False
-    return bool(re.search(r"\b(is|are|was|were|has|have|stores?|contains?|includes?|launched|released|founded|costs?|claims?|according|research|study|report|20\d{2}|19\d{2})\b", sentence, re.I))
+    return bool(re.search(r"\b(is|are|was|were|has|have|uses?|reads?|writes?|checks?|rewrites?|compares?|supports?|stores?|contains?|includes?|launched|released|founded|costs?|claims?|according|research|study|report|20\d{2}|19\d{2})\b", sentence, re.I))
 
 
 def extract_claims(text: str) -> list[str]:
@@ -456,13 +468,26 @@ def factcheck(
     evidence_texts: Sequence[str],
     *,
     external: bool = False,
+    include_style_only: bool = False,
     max_external_results: int = 5,
     external_lookup: Callable[[str, int], list[ReferenceSource]] | None = None,
 ) -> list[dict[str, object]]:
     evidence = "\n".join(evidence_texts)
     evidence_words = set(words(evidence))
     results: list[dict[str, object]] = []
-    for claim in extract_claims(text):
+    for sentence in sentences(text):
+        if not claim_like(sentence):
+            if include_style_only:
+                results.append({
+                    "claim": sentence,
+                    "status": "style_only",
+                    "confidence": 1.0,
+                    "source_type": "none",
+                    "matched_terms": [],
+                    "references": [],
+                })
+            continue
+        claim = sentence
         claim_terms = key_terms(claim, limit=20)
         overlap, supported, confidence = support_score(claim_terms, evidence_words)
         sources: list[ReferenceSource] = []
@@ -500,6 +525,7 @@ def load_profile(path: Path | None) -> VoiceProfile | None:
     if not path:
         return None
     data = json.loads(path.read_text(encoding="utf-8"))
+    data.setdefault("sources", [])
     return VoiceProfile(**data)
 
 
@@ -532,8 +558,60 @@ def cmd_factcheck(args: argparse.Namespace) -> None:
         draft,
         evidence,
         external=args.external,
+        include_style_only=args.include_style_only,
         max_external_results=args.max_external_results,
     ))
+
+
+def review_payload(args: argparse.Namespace) -> dict[str, object]:
+    draft = read_text(args.path)
+    profile = load_profile(args.profile)
+    rewritten = simple_humanize(draft, profile)
+    evidence = [read_text(path) for path in args.evidence]
+    return {
+        "audit": audit_text(draft),
+        "profile": asdict(profile) if profile else None,
+        "rewrite": rewritten,
+        "factcheck": factcheck(
+            rewritten,
+            evidence,
+            external=args.external,
+            include_style_only=args.include_style_only,
+            max_external_results=args.max_external_results,
+        ),
+    }
+
+
+def render_review_markdown(payload: dict[str, object]) -> str:
+    audit = payload["audit"]
+    factcheck_results = payload["factcheck"]
+    lines = ["# Humanize Review", "", "## Rewrite", "", str(payload["rewrite"]).strip(), ""]
+    lines.extend(["## AI-pattern audit", ""])
+    if isinstance(audit, list) and audit:
+        for item in audit:
+            lines.append(f"- `{item['pattern']}`: {item['match']} - {item['message']}")
+    else:
+        lines.append("- No common AI-writing patterns detected.")
+    lines.extend(["", "## Fact-check", ""])
+    if isinstance(factcheck_results, list) and factcheck_results:
+        for item in factcheck_results:
+            claim = str(item["claim"]).replace("\n", " ")
+            lines.append(f"- `{item['status']}`: {claim}")
+    else:
+        lines.append("- No factual claims detected.")
+    return "\n".join(lines).rstrip() + "\n"
+
+
+def cmd_review(args: argparse.Namespace) -> None:
+    payload = review_payload(args)
+    if args.format == "json":
+        output = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+    else:
+        output = render_review_markdown(payload)
+    if args.out:
+        args.out.parent.mkdir(parents=True, exist_ok=True)
+        args.out.write_text(output, encoding="utf-8")
+    print(output, end="")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -558,8 +636,20 @@ def build_parser() -> argparse.ArgumentParser:
     fc.add_argument("path", type=Path)
     fc.add_argument("--evidence", nargs="*", type=Path, default=[])
     fc.add_argument("--external", action="store_true", help="Search public external references when provided evidence is insufficient")
+    fc.add_argument("--include-style-only", action="store_true", help="Return non-factual sentences as style_only entries")
     fc.add_argument("--max-external-results", type=int, default=5)
     fc.set_defaults(func=cmd_factcheck)
+
+    review = sub.add_parser("review", help="Run audit, rewrite, and fact-check as one report")
+    review.add_argument("path", type=Path)
+    review.add_argument("--profile", type=Path)
+    review.add_argument("--evidence", nargs="*", type=Path, default=[])
+    review.add_argument("--external", action="store_true", help="Search public external references when provided evidence is insufficient")
+    review.add_argument("--include-style-only", action="store_true", help="Return non-factual sentences as style_only entries")
+    review.add_argument("--max-external-results", type=int, default=5)
+    review.add_argument("--format", choices=["markdown", "json"], default="markdown")
+    review.add_argument("--out", type=Path)
+    review.set_defaults(func=cmd_review)
 
     return parser
 

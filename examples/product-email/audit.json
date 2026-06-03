@@ -1,0 +1,50 @@
+[
+  {
+    "pattern": "inflated_significance",
+    "match": "groundbreaking",
+    "message": "Inflated significance or generic AI vocabulary.",
+    "snippet": "Great question! Our groundbreaking workspace serves as a pivotal solution for busy t"
+  },
+  {
+    "pattern": "inflated_significance",
+    "match": "pivotal",
+    "message": "Inflated significance or generic AI vocabulary.",
+    "snippet": "uestion! Our groundbreaking workspace serves as a pivotal solution for busy teams, showcasing how they can"
+  },
+  {
+    "pattern": "inflated_significance",
+    "match": "landscape",
+    "message": "Inflated significance or generic AI vocabulary.",
+    "snippet": "seamless async collaboration across the modern AI landscape. The product includes a local voice profile, clai"
+  },
+  {
+    "pattern": "promotional_language",
+    "match": "seamless",
+    "message": "Promotional or ad-like language.",
+    "snippet": "on for busy teams, showcasing how they can unlock seamless async collaboration across the modern AI landscap"
+  },
+  {
+    "pattern": "participle_depth",
+    "match": "showcasing",
+    "message": "Superficial -ing analysis.",
+    "snippet": "pace serves as a pivotal solution for busy teams, showcasing how they can unlock seamless async collaboration"
+  },
+  {
+    "pattern": "copula_avoidance",
+    "match": "serves as",
+    "message": "Likely over-elaborate replacement for is/has.",
+    "snippet": "Great question! Our groundbreaking workspace serves as a pivotal solution for busy teams, showcasing how"
+  },
+  {
+    "pattern": "negative_parallelism",
+    "match": "not just a writing tool, but",
+    "message": "Formulaic negative parallelism.",
+    "snippet": "an cut editing time in half for every team. It is not just a writing tool, but a trust layer for the future of work."
+  },
+  {
+    "pattern": "chatbot_residue",
+    "match": "Great question",
+    "message": "Chatbot residue.",
+    "snippet": "Great question! Our groundbreaking workspace serves as a pivotal"
+  }
+]

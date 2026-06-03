@@ -1,0 +1,97 @@
+{
+  "audit": [
+    {
+      "pattern": "promotional_language",
+      "match": "seamless",
+      "message": "Promotional or ad-like language.",
+      "snippet": "This revolutionary CLI offers a robust and seamless developer experience, enabling users to effortles"
+    },
+    {
+      "pattern": "copula_avoidance",
+      "match": "offers",
+      "message": "Likely over-elaborate replacement for is/has.",
+      "snippet": "This revolutionary CLI offers a robust and seamless developer experience, enabl"
+    },
+    {
+      "pattern": "filler",
+      "match": "In conclusion",
+      "message": "Filler or signposting phrase.",
+      "snippet": "aim against public sources with perfect accuracy. In conclusion, it is a must-have utility for any modern enginee"
+    }
+  ],
+  "profile": {
+    "sample_count": 1,
+    "sources": [
+      "examples/technical-readme/sample.txt"
+    ],
+    "word_count": 33,
+    "sentence_count": 5,
+    "avg_sentence_words": 6.6,
+    "sentence_rhythm": "short",
+    "paragraph_style": "brief",
+    "punctuation": {
+      ".": 5,
+      ",": 1,
+      "!": 0,
+      "?": 0,
+      ";": 0,
+      ":": 0,
+      "(": 0,
+      ")": 0,
+      "-": 0,
+      "—": 0
+    },
+    "top_words": [
+      "keep",
+      "readme",
+      "copy",
+      "boring",
+      "good",
+      "way",
+      "say",
+      "what",
+      "command",
+      "does",
+      "show",
+      "files",
+      "accepts",
+      "name",
+      "limits"
+    ],
+    "likely_tone": [
+      "personal",
+      "direct"
+    ]
+  },
+  "rewrite": "This revolutionary CLI offers a robust and straightforward developer experience, enabling users to effortlessly transform AI-generated prose into authentic human communication. It supports Markdown, JSON, JSONL, CSV, and TSV inputs, uses only the Python standard library, and automatically checks every claim against public sources with perfect accuracy. In conclusion, it is a must-have utility for any modern engineering organization.",
+  "factcheck": [
+    {
+      "claim": "It supports Markdown, JSON, JSONL, CSV, and TSV inputs, uses only the Python standard library, and automatically checks every claim against public sources with perfect accuracy.",
+      "status": "supported",
+      "confidence": 0.9,
+      "source_type": "provided_evidence",
+      "matched_terms": [
+        "accuracy",
+        "claim",
+        "json",
+        "jsonl",
+        "library",
+        "markdown",
+        "only",
+        "perfect",
+        "python",
+        "standard",
+        "uses"
+      ],
+      "references": []
+    },
+    {
+      "claim": "In conclusion, it is a must-have utility for any modern engineering organization.",
+      "status": "needs_evidence",
+      "confidence": 0.35,
+      "source_type": "provided_evidence",
+      "matched_terms": [],
+      "references": []
+    }
+  ]
+}

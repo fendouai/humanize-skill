@@ -1,0 +1,69 @@
+[
+  {
+    "claim": "Subject: A cleaner review flow for AI drafts\n\nWe shipped a workspace that turns a rough AI draft into three things: a local voice profile, a cleaner rewrite, and a claim review you can hand to an editor.",
+    "status": "supported",
+    "confidence": 0.9,
+    "source_type": "provided_evidence",
+    "matched_terms": [
+      "claim",
+      "cleaner",
+      "draft",
+      "editor",
+      "local",
+      "profile",
+      "review",
+      "rewrite",
+      "rough",
+      "turns",
+      "voice",
+      "workspace"
+    ],
+    "references": []
+  },
+  {
+    "claim": "It is useful when a team wants the writing to sound more like the person behind it, without letting unsupported claims sneak through.",
+    "status": "style_only",
+    "confidence": 1.0,
+    "source_type": "none",
+    "matched_terms": [],
+    "references": []
+  },
+  {
+    "claim": "Early pilot users said the Markdown report made handoff easier.",
+    "status": "supported",
+    "confidence": 0.9,
+    "source_type": "provided_evidence",
+    "matched_terms": [
+      "easier",
+      "handoff",
+      "made",
+      "markdown",
+      "pilot",
+      "report",
+      "said",
+      "users"
+    ],
+    "references": []
+  },
+  {
+    "claim": "We have not benchmarked editing-time savings yet, so I would not call it faster for every team.",
+    "status": "needs_evidence",
+    "confidence": 0.35,
+    "source_type": "provided_evidence",
+    "matched_terms": [
+      "editing",
+      "time"
+    ],
+    "references": []
+  },
+  {
+    "claim": "The point is simpler: better voice, clearer evidence, less cleanup before publishing.",
+    "status": "needs_evidence",
+    "confidence": 0.35,
+    "source_type": "provided_evidence",
+    "matched_terms": [
+      "voice"
+    ],
+    "references": []
+  }
+]

@@ -1,12 +1,6 @@
 ---
 name: humanize-skill
-version: 0.1.0
-description: |
-  Rewrite AI-looking text into a natural human voice, optionally matching the
-  user's own writing samples or local account exports, then run a lightweight
-  fact-check pass over factual claims before finalizing.
-license: MIT
-compatibility: codex claude-code opencode
+description: Rewrite AI-looking drafts in the user's voice, using local samples when available, then check factual claims against evidence before finalizing.
 allowed-tools:
   - Read
   - Write
@@ -170,7 +164,11 @@ python3 scripts/humanize_skill.py profile samples/*.txt --out .humanize-skill/pr
 python3 scripts/humanize_skill.py audit draft.md
 python3 scripts/humanize_skill.py humanize draft.md --profile .humanize-skill/profile.json
 python3 scripts/humanize_skill.py factcheck draft.md --evidence sources/*.md
+python3 scripts/humanize_skill.py factcheck draft.md --evidence sources/*.md --include-style-only
+python3 scripts/humanize_skill.py review draft.md --profile .humanize-skill/profile.json --evidence sources/*.md --out review.md
 python3 scripts/humanize_skill.py factcheck draft.md --external
 ```
 
 Use it when a mechanical local pass helps, but do not treat it as a substitute for editorial judgment.
+
+The `review` command is useful when the user wants an inspectable report. It combines the audit, rewrite, and fact-check result as Markdown by default, or JSON with `--format json`.

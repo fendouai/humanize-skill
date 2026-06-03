@@ -31,6 +31,7 @@ class HumanizeSkillTests(unittest.TestCase):
             path.write_text("I ship small things. Then I see what breaks.\n\nAPIs are easier that way.", encoding="utf-8")
             profile = humanize_skill.build_profile([path])
         self.assertEqual(profile.sample_count, 1)
+        self.assertEqual(len(profile.sources), 1)
         self.assertIn("technical", profile.likely_tone)
         self.assertEqual(profile.sentence_rhythm, "short")
 
@@ -80,11 +81,45 @@ class HumanizeSkillTests(unittest.TestCase):
 
         self.assertEqual(results[0]["status"], "needs_evidence")
 
+    def test_factcheck_can_include_style_only_sentences(self):
+        results = humanize_skill.factcheck(
+            "I prefer short notes. OpenHuman stores Memory Tree data locally.",
+            ["OpenHuman stores Memory Tree data locally."],
+            include_style_only=True,
+        )
+
+        statuses = [item["status"] for item in results]
+        self.assertEqual(statuses, ["style_only", "supported"])
+
     def test_json_exports_are_read_for_text_fields(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "messages.json"
             path.write_text(json.dumps([{"text": "This is my actual writing sample."}]), encoding="utf-8")
             self.assertIn("actual writing sample", humanize_skill.read_text(path))
+
+    def test_csv_exports_are_read_for_text_columns(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "messages.csv"
+            path.write_text("id,message\n1,This is a CSV writing sample.\n", encoding="utf-8")
+            self.assertIn("CSV writing sample", humanize_skill.read_text(path))
+
+    def test_review_payload_combines_audit_rewrite_and_factcheck(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            draft = Path(tmp) / "draft.md"
+            draft.write_text(
+                "Great question. OpenHuman stores Memory Tree data locally.",
+                encoding="utf-8",
+            )
+            evidence = Path(tmp) / "evidence.md"
+            evidence.write_text("OpenHuman stores Memory Tree data locally.", encoding="utf-8")
+
+            parser = humanize_skill.build_parser()
+            args = parser.parse_args(["review", str(draft), "--evidence", str(evidence), "--format", "json"])
+            payload = humanize_skill.review_payload(args)
+
+        self.assertIn("rewrite", payload)
+        self.assertNotIn("Great question", payload["rewrite"])
+        self.assertEqual(payload["factcheck"][0]["status"], "supported")
 
     def test_reconstruct_openalex_abstract(self):
         abstract = humanize_skill.reconstruct_openalex_abstract({
@@ -93,6 +128,18 @@ class HumanizeSkillTests(unittest.TestCase):
             "model": [2],
         })
         self.assertEqual(abstract, "claim verification model")
+
+    def test_claim_extraction_ignores_markdown_code_fences(self):
+        claims = humanize_skill.extract_claims(
+            "```text\nOpenHuman stores Memory Tree data locally.\n```\n\nOutside text is a factual claim here."
+        )
+        self.assertEqual(claims, ["Outside text is a factual claim here."])
+
+    def test_claim_extraction_catches_tool_capability_verbs(self):
+        claims = humanize_skill.extract_claims(
+            "The helper reads Markdown files and checks factual claims."
+        )
+        self.assertEqual(claims, ["The helper reads Markdown files and checks factual claims."])
 
 
 if __name__ == "__main__":
