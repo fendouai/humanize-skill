@@ -1,4 +1,8 @@
-# Codex Skill Run: Research Blog
+# Codex Skill E2E Run: Research Blog
+
+Run date: 2026-06-04
+Host: Codex
+Mode: agent-native semantic rewrite, no CLI or regex rewrite pass
 
 ## Scope
 
@@ -31,8 +35,14 @@
 
 ## Final Rewrite
 
-AI drafts often have two separate problems. They sound generic, and they can make unsupported claims feel finished.
+AI drafts often have two separate problems. They sound generic, and they can state facts with more confidence than the evidence supports.
 
-`humanize-skill` treats those as separate editing passes. First it uses local samples or exports to build a compact voice profile. Then it rewrites the draft with fewer AI tells. After that, it checks claim-like sentences against evidence and marks what is supported, missing a source, or risky.
+This skill handles those problems separately. It uses a voice profile and an AI-pattern pass to make the draft sound less canned, then checks claim-like sentences against the evidence you provide.
 
-That does not eliminate hallucinations. It gives the writer a clearer review step before the text goes out.
+That does not eliminate hallucinations. It gives the writer a clearer review step before publishing.
+
+## Final Audit
+
+- Removed the fake 87% statistic.
+- Replaced hallucination elimination with a bounded review-step claim.
+- Avoided "revolutionary" and universal publishing claims.

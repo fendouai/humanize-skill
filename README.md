@@ -208,15 +208,15 @@ There is no CLI. The rewrite is done by the host model, because humanizing text 
 
 ## Five Real Skill Runs
 
-These examples were run through the skill in Codex. Each folder keeps the draft, writing sample, evidence, final rewrite, notes, and the Codex editorial run.
+These examples were rerun through the skill in Codex as agent-native E2E tests. Each folder keeps the draft, writing sample, evidence, final rewrite, notes, and the Codex run.
 
 | Scenario | AI-looking draft | Humanized result | Fact decision | Saved process |
 | --- | --- | --- | --- | --- |
-| Product email | "Our groundbreaking workspace serves as a pivotal solution..." | "We shipped a workspace that turns a rough AI draft into three things..." | Removed the unsupported "cut editing time in half" claim. | [run](./examples/product-email/codex-run.md) · [notes](./examples/product-email/notes.md) · [final](./examples/product-email/final.md) |
-| Technical README | "This revolutionary CLI offers a robust and seamless developer experience..." | "`humanize-skill` is an agent workflow for cleaning up AI-looking prose..." | Replaced "perfect accuracy" with conservative review-surface language. | [run](./examples/technical-readme/codex-run.md) · [notes](./examples/technical-readme/notes.md) · [final](./examples/technical-readme/final.md) |
-| Social post | "I am thrilled to announce... a definitive solution..." | "Small ship: I made a skill for cleaning up AI-looking drafts." | Corrected automatic social-history analysis to user-provided samples or exports. | [run](./examples/social-post/codex-run.md) · [notes](./examples/social-post/notes.md) · [final](./examples/social-post/final.md) |
-| Support reply | "Great question!... your data is always safe." | "One thing to clarify first: the skill does not sync your writing profile across channels." | Removed absolute safety and unsupported sync claims. | [run](./examples/support-reply/codex-run.md) · [notes](./examples/support-reply/notes.md) · [final](./examples/support-reply/final.md) |
-| Research blog | "Studies show that humanized copy increases reader trust by 87%..." | "AI drafts often have two separate problems. They sound generic..." | Removed the fake 87% statistic and softened hallucination elimination. | [run](./examples/research-blog/codex-run.md) · [notes](./examples/research-blog/notes.md) · [final](./examples/research-blog/final.md) |
+| Product email | "Our groundbreaking workspace serves as a pivotal solution..." | "We shipped a workspace for teams that edit AI drafts together." | Removed the unsupported "cut editing time in half" claim. | [run](./examples/product-email/codex-run.md) · [notes](./examples/product-email/notes.md) · [final](./examples/product-email/final.md) |
+| Technical README | "This revolutionary CLI offers a robust and seamless developer experience..." | "`humanize-skill` is an agent workflow for rewriting AI-looking drafts." | Removed CLI/package claims and replaced "perfect accuracy" with conservative review-step language. | [run](./examples/technical-readme/codex-run.md) · [notes](./examples/technical-readme/notes.md) · [final](./examples/technical-readme/final.md) |
+| Social post | "I am thrilled to announce... a definitive solution..." | "Small ship: I made a skill for cleaning up AI-looking drafts." | Corrected automatic social-history analysis to user-chosen samples or exports. | [run](./examples/social-post/codex-run.md) · [notes](./examples/social-post/notes.md) · [final](./examples/social-post/final.md) |
+| Support reply | "Great question!... your data is always safe." | "I am going to separate what I know from what I still need to check." | Removed absolute safety, automatic sync, and unsupported reconnect claims. | [run](./examples/support-reply/codex-run.md) · [notes](./examples/support-reply/notes.md) · [final](./examples/support-reply/final.md) |
+| Research blog | "Studies show that humanized copy increases reader trust by 87%..." | "AI drafts often have two separate problems." | Removed the fake 87% statistic and softened hallucination elimination. | [run](./examples/research-blog/codex-run.md) · [notes](./examples/research-blog/notes.md) · [final](./examples/research-blog/final.md) |
 
 <details>
 <summary>Product email</summary>
@@ -224,13 +224,17 @@ These examples were run through the skill in Codex. Each folder keeps the draft,
 **Before**
 
 ```text
-Great question! Our groundbreaking workspace serves as a pivotal solution for busy teams, showcasing how they can unlock seamless async collaboration across the modern AI landscape.
+Great question! Our groundbreaking workspace serves as a pivotal solution for busy teams, showcasing how they can unlock seamless async collaboration across the modern AI landscape. The product includes a local voice profile, claim review, and a Markdown report export, and it can cut editing time in half for every team. It is not just a writing tool, but a trust layer for the future of work.
 ```
 
 **After**
 
 ```text
-We shipped a workspace that turns a rough AI draft into three things: a local voice profile, a cleaner rewrite, and a claim review you can hand to an editor.
+We shipped a workspace for teams that edit AI drafts together.
+
+It builds a local voice profile, cleans up the draft, creates a claim review an editor can check, and exports the result as Markdown.
+
+Pilot users said the report made editorial handoff easier. We do not have a benchmark for editing-time reduction yet, so I am not going to claim one.
 ```
 
 **Process kept on disk**
@@ -250,13 +254,17 @@ We shipped a workspace that turns a rough AI draft into three things: a local vo
 **Before**
 
 ```text
-This revolutionary CLI offers a robust and seamless developer experience, enabling users to effortlessly transform AI-generated prose into authentic human communication.
+This revolutionary CLI offers a robust and seamless developer experience, enabling users to effortlessly transform AI-generated prose into authentic human communication. It supports Markdown, JSON, JSONL, CSV, and TSV inputs, uses only the Python standard library, and automatically checks every claim against public sources with perfect accuracy. In conclusion, it is a must-have utility for any modern engineering organization.
 ```
 
 **After**
 
 ```text
-`humanize-skill` is an agent workflow for cleaning up AI-looking prose, building a compact voice profile from user-provided samples, and checking claim-like sentences against evidence.
+`humanize-skill` is an agent workflow for rewriting AI-looking drafts.
+
+Codex or Claude does the edit; the skill gives it a process for voice matching, AI-pattern cleanup, and claim review.
+
+Use it with pasted drafts, writing samples, selected local files, exports, evidence files, or authorized connectors. The fact-check pass starts with provided evidence and can use search when the host has it. It is a review step, not a promise of perfect accuracy.
 ```
 
 **Process kept on disk**
@@ -276,13 +284,17 @@ This revolutionary CLI offers a robust and seamless developer experience, enabli
 **Before**
 
 ```text
-I am thrilled to announce that I have launched a groundbreaking open-source skill that empowers creators to reclaim their authentic voice in the AI era.
+I am thrilled to announce that I have launched a groundbreaking open-source skill that empowers creators to reclaim their authentic voice in the AI era. It analyzes your social media history, understands your unique personality, and verifies every fact, making it the definitive solution for human-centered writing.
 ```
 
 **After**
 
 ```text
 Small ship: I made a skill for cleaning up AI-looking drafts.
+
+It is not magic. It looks at the sample or export you choose, rewrites the draft in that direction, and checks claim-like sentences before they go out.
+
+Useful little thing.
 ```
 
 **Process kept on disk**
@@ -302,13 +314,17 @@ Small ship: I made a skill for cleaning up AI-looking drafts.
 **Before**
 
 ```text
-Great question! We sincerely apologize for any inconvenience this may have caused. Our system is designed to seamlessly synchronize your writing profile across every channel, and your data is always safe.
+Great question! We sincerely apologize for any inconvenience this may have caused. Our system is designed to seamlessly synchronize your writing profile across every channel, and your data is always safe. In order to resolve the issue, please reconnect your account and let us know if the problem persists.
 ```
 
 **After**
 
 ```text
-One thing to clarify first: the skill does not sync your writing profile across channels. It uses the text, files, exports, or authorized connectors you choose for that run.
+Thanks for the details. I can see why this is frustrating.
+
+I am going to separate what I know from what I still need to check. The skill does not sync your writing profile across channels by itself. It uses the text, files, exports, or authorized connectors you choose for that run.
+
+Try the rewrite again with the source sample you meant to use. If it still looks off, send the draft, the sample type, and any evidence the claims should follow. I will help narrow it down.
 ```
 
 **Process kept on disk**
@@ -328,13 +344,17 @@ One thing to clarify first: the skill does not sync your writing profile across 
 **Before**
 
 ```text
-Studies show that humanized copy increases reader trust by 87%, and tools that verify claims eliminate hallucinations.
+In today's rapidly evolving landscape, AI humanization is more important than ever. Studies show that humanized copy increases reader trust by 87%, and tools that verify claims eliminate hallucinations. This article explores a revolutionary approach that blends authentic voice modeling with rigorous factuality, transforming how every writer publishes online.
 ```
 
 **After**
 
 ```text
-That does not eliminate hallucinations. It gives the writer a clearer review step before the text goes out.
+AI drafts often have two separate problems. They sound generic, and they can state facts with more confidence than the evidence supports.
+
+This skill handles those problems separately. It uses a voice profile and an AI-pattern pass to make the draft sound less canned, then checks claim-like sentences against the evidence you provide.
+
+That does not eliminate hallucinations. It gives the writer a clearer review step before publishing.
 ```
 
 **Process kept on disk**
