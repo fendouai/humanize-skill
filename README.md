@@ -10,8 +10,7 @@
 
 <p align="center">
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-black?style=flat"></a>
-  <img alt="Python" src="https://img.shields.io/badge/python-3.10%2B-3776AB?style=flat&logo=python&logoColor=white">
-  <img alt="No dependencies" src="https://img.shields.io/badge/dependencies-zero-0E7C66?style=flat">
+  <img alt="Agent-native" src="https://img.shields.io/badge/agent--native-Codex%20%7C%20Claude-0E7C66?style=flat">
   <img alt="Skill" src="https://img.shields.io/badge/skill-Codex%20%7C%20Claude%20Code%20%7C%20OpenCode-black?style=flat">
 </p>
 
@@ -46,9 +45,8 @@ Good humanized writing needs three things at once:
 - **Local-first source ingestion**: works with pasted text, Markdown, JSON/JSONL, CSV/TSV, chat exports, social exports, and email/archive text.
 - **External fact verification**: checks claims against provided evidence first, then searches public references when support is missing.
 - **Conservative support labels**: returns `supported`, `needs_evidence`, `possibly_wrong`, or `style_only`.
-- **One-command review reports**: combines audit, rewrite, and fact-check output as Markdown or JSON.
-- **Zero dependency CLI**: standard-library Python helper for repeatable audits and tests.
-- **Skill-native workflow**: the main product is [SKILL.md](./SKILL.md), ready to install in Codex/Claude Code/OpenCode-style environments.
+- **Agent-native semantic rewrite**: Codex or Claude does the actual rewrite with context and judgment, not a regex script.
+- **Skill-native workflow**: [SKILL.md](./SKILL.md) is the product, ready to install in Codex/Claude Code/OpenCode-style environments.
 
 ## Installation
 
@@ -204,37 +202,21 @@ The pattern list is inspired by `blader/humanizer`'s README style, but extended 
 
 ## Quick start
 
-Clone this repository or copy [SKILL.md](./SKILL.md) into your agent's skills directory.
+Clone this repository or copy [SKILL.md](./SKILL.md) into your agent's skills directory, then ask the agent to use `humanize-skill`.
 
-Run the helper locally:
-
-```bash
-python3 scripts/humanize_skill.py audit draft.md
-python3 scripts/humanize_skill.py profile samples/*.txt --out .humanize-skill/profile.json
-python3 scripts/humanize_skill.py humanize draft.md --profile .humanize-skill/profile.json
-python3 scripts/humanize_skill.py factcheck draft.md --evidence sources/*.md
-python3 scripts/humanize_skill.py review draft.md --profile .humanize-skill/profile.json --evidence sources/*.md --out review.md
-python3 scripts/humanize_skill.py factcheck draft.md --external
-```
-
-Install as a Python console script:
-
-```bash
-pip install -e .
-humanize-skill audit draft.md
-```
+There is no CLI. The rewrite is done by the host model, because humanizing text requires semantic judgment: fixing broken sentences, removing unsupported metrics, choosing what to soften, and matching the user's voice.
 
 ## Five Real Skill Runs
 
-These examples were run through the skill in Codex, not only through the helper script. Each folder keeps the draft, writing sample, evidence, mechanical helper output, fact-check JSON, and the Codex editorial run.
+These examples were run through the skill in Codex. Each folder keeps the draft, writing sample, evidence, final rewrite, notes, and the Codex editorial run.
 
 | Scenario | AI-looking draft | Humanized result | Fact decision | Saved process |
 | --- | --- | --- | --- | --- |
-| Product email | "Our groundbreaking workspace serves as a pivotal solution..." | "We shipped a workspace that turns a rough AI draft into three things..." | Removed the unsupported "cut editing time in half" claim. | [run](./examples/product-email/codex-run.md) · [audit](./examples/product-email/audit.json) · [facts](./examples/product-email/factcheck.json) |
-| Technical README | "This revolutionary CLI offers a robust and seamless developer experience..." | "`humanize-skill` is a small Python helper for cleaning up AI-looking prose..." | Replaced "perfect accuracy" with conservative review-surface language. | [run](./examples/technical-readme/codex-run.md) · [audit](./examples/technical-readme/audit.json) · [facts](./examples/technical-readme/factcheck.json) |
-| Social post | "I am thrilled to announce... a definitive solution..." | "Small ship: I made a skill for cleaning up AI-looking drafts." | Corrected automatic social-history analysis to user-provided samples or exports. | [run](./examples/social-post/codex-run.md) · [audit](./examples/social-post/audit.json) · [facts](./examples/social-post/factcheck.json) |
-| Support reply | "Great question!... your data is always safe." | "One thing to clarify first: the local helper does not sync your writing profile across channels." | Removed absolute safety and unsupported sync claims. | [run](./examples/support-reply/codex-run.md) · [audit](./examples/support-reply/audit.json) · [facts](./examples/support-reply/factcheck.json) |
-| Research blog | "Studies show that humanized copy increases reader trust by 87%..." | "AI drafts often have two separate problems. They sound generic..." | Removed the fake 87% statistic and softened hallucination elimination. | [run](./examples/research-blog/codex-run.md) · [audit](./examples/research-blog/audit.json) · [facts](./examples/research-blog/factcheck.json) |
+| Product email | "Our groundbreaking workspace serves as a pivotal solution..." | "We shipped a workspace that turns a rough AI draft into three things..." | Removed the unsupported "cut editing time in half" claim. | [run](./examples/product-email/codex-run.md) · [notes](./examples/product-email/notes.md) · [final](./examples/product-email/final.md) |
+| Technical README | "This revolutionary CLI offers a robust and seamless developer experience..." | "`humanize-skill` is an agent workflow for cleaning up AI-looking prose..." | Replaced "perfect accuracy" with conservative review-surface language. | [run](./examples/technical-readme/codex-run.md) · [notes](./examples/technical-readme/notes.md) · [final](./examples/technical-readme/final.md) |
+| Social post | "I am thrilled to announce... a definitive solution..." | "Small ship: I made a skill for cleaning up AI-looking drafts." | Corrected automatic social-history analysis to user-provided samples or exports. | [run](./examples/social-post/codex-run.md) · [notes](./examples/social-post/notes.md) · [final](./examples/social-post/final.md) |
+| Support reply | "Great question!... your data is always safe." | "One thing to clarify first: the skill does not sync your writing profile across channels." | Removed absolute safety and unsupported sync claims. | [run](./examples/support-reply/codex-run.md) · [notes](./examples/support-reply/notes.md) · [final](./examples/support-reply/final.md) |
+| Research blog | "Studies show that humanized copy increases reader trust by 87%..." | "AI drafts often have two separate problems. They sound generic..." | Removed the fake 87% statistic and softened hallucination elimination. | [run](./examples/research-blog/codex-run.md) · [notes](./examples/research-blog/notes.md) · [final](./examples/research-blog/final.md) |
 
 <details>
 <summary>Product email</summary>
@@ -256,8 +238,9 @@ We shipped a workspace that turns a rough AI draft into three things: a local vo
 - [draft](./examples/product-email/draft.md)
 - [writing sample](./examples/product-email/sample.txt)
 - [evidence](./examples/product-email/evidence.md)
-- [voice profile](./examples/product-email/profile.json)
 - [Codex run](./examples/product-email/codex-run.md)
+- [final rewrite](./examples/product-email/final.md)
+- [notes](./examples/product-email/notes.md)
 
 </details>
 
@@ -273,7 +256,7 @@ This revolutionary CLI offers a robust and seamless developer experience, enabli
 **After**
 
 ```text
-`humanize-skill` is a small Python helper for cleaning up AI-looking prose, building a compact voice profile from local samples, and checking claim-like sentences against evidence.
+`humanize-skill` is an agent workflow for cleaning up AI-looking prose, building a compact voice profile from user-provided samples, and checking claim-like sentences against evidence.
 ```
 
 **Process kept on disk**
@@ -281,8 +264,9 @@ This revolutionary CLI offers a robust and seamless developer experience, enabli
 - [draft](./examples/technical-readme/draft.md)
 - [writing sample](./examples/technical-readme/sample.txt)
 - [evidence](./examples/technical-readme/evidence.md)
-- [voice profile](./examples/technical-readme/profile.json)
 - [Codex run](./examples/technical-readme/codex-run.md)
+- [final rewrite](./examples/technical-readme/final.md)
+- [notes](./examples/technical-readme/notes.md)
 
 </details>
 
@@ -306,8 +290,9 @@ Small ship: I made a skill for cleaning up AI-looking drafts.
 - [draft](./examples/social-post/draft.md)
 - [writing sample](./examples/social-post/sample.txt)
 - [evidence](./examples/social-post/evidence.md)
-- [voice profile](./examples/social-post/profile.json)
 - [Codex run](./examples/social-post/codex-run.md)
+- [final rewrite](./examples/social-post/final.md)
+- [notes](./examples/social-post/notes.md)
 
 </details>
 
@@ -323,7 +308,7 @@ Great question! We sincerely apologize for any inconvenience this may have cause
 **After**
 
 ```text
-One thing to clarify first: the local helper does not sync your writing profile across channels. It reads the files you choose and writes the profile where you tell it to.
+One thing to clarify first: the skill does not sync your writing profile across channels. It uses the text, files, exports, or authorized connectors you choose for that run.
 ```
 
 **Process kept on disk**
@@ -331,8 +316,9 @@ One thing to clarify first: the local helper does not sync your writing profile 
 - [draft](./examples/support-reply/draft.md)
 - [writing sample](./examples/support-reply/sample.txt)
 - [evidence](./examples/support-reply/evidence.md)
-- [voice profile](./examples/support-reply/profile.json)
 - [Codex run](./examples/support-reply/codex-run.md)
+- [final rewrite](./examples/support-reply/final.md)
+- [notes](./examples/support-reply/notes.md)
 
 </details>
 
@@ -356,8 +342,9 @@ That does not eliminate hallucinations. It gives the writer a clearer review ste
 - [draft](./examples/research-blog/draft.md)
 - [writing sample](./examples/research-blog/sample.txt)
 - [evidence](./examples/research-blog/evidence.md)
-- [voice profile](./examples/research-blog/profile.json)
 - [Codex run](./examples/research-blog/codex-run.md)
+- [final rewrite](./examples/research-blog/final.md)
+- [notes](./examples/research-blog/notes.md)
 
 </details>
 
@@ -373,80 +360,39 @@ Verification order:
 4. Keep source title, URL, snippet, and matched terms.
 5. If support is still weak, mark `needs_evidence` and soften or remove the claim.
 
-The CLI currently includes lightweight search adapters for:
-
-- Wikipedia
-- OpenAlex
-- Crossref
-- DuckDuckGo HTML results when available
-
-Host agents can also use their own web/search tools under the rules in [SKILL.md](./SKILL.md).
-
-## CLI commands
-
-The helper is intentionally mechanical. Use it for repeatable local passes, then apply editorial judgment in the agent response.
-
-```bash
-humanize-skill audit draft.md
-humanize-skill profile samples/*.txt --out .humanize-skill/profile.json
-humanize-skill humanize draft.md --profile .humanize-skill/profile.json
-humanize-skill factcheck draft.md --evidence evidence/*.md --include-style-only
-humanize-skill review draft.md --profile .humanize-skill/profile.json --evidence evidence/*.md --format json
-```
-
-`review` returns a compact report with:
-
-- the AI-pattern audit
-- the optional voice profile used
-- the rules-based rewrite
-- claim statuses and references when available
-
-Use `--external` on `factcheck` or `review` only when network access is acceptable for the material being checked.
+Host agents should use their own current web/search tools under the rules in [SKILL.md](./SKILL.md). Public APIs can rate-limit or return weak snippets, so the agent should cite strong sources when available and mark weak support as `needs_evidence`.
 
 ## Project structure
 
 ```text
 .
 ├── SKILL.md                    # Agent-facing skill workflow
-├── scripts/
-│   └── humanize_skill.py       # Zero-dependency CLI helper
-├── tests/
-│   └── test_humanize_skill.py  # Unit tests for audit/profile/factcheck behavior
-├── examples/                   # Five Codex skill runs with saved intermediate artifacts
+├── examples/                   # Five Codex skill runs with saved agent artifacts
 ├── docs/
 │   ├── reference-analysis.md   # What was borrowed from the three references
 │   └── source-ingestion.md     # Local-first real-user text ingestion policy
 ├── assets/
 │   └── humanize-skill-hero.png # README hero image generated with gpt-image-2
-├── pyproject.toml              # Editable install and console-script metadata
 └── LICENSE
 ```
 
 ## Design principles
 
-- **Small beats heavy**: this is a skill and helper, not a full desktop agent.
+- **Small beats heavy**: this is a skill, not a full desktop agent or standalone rewriting app.
 - **User data stays controlled**: build compact profiles, not raw private-message stores.
 - **Voice is not decoration**: match rhythm and choices, not just slang.
 - **Verification is separate**: rewrite first, fact-check second, then revise.
 - **Unsupported specifics are a bug**: remove, soften, cite, or ask.
 
-## Development
+## Validation
 
-```bash
-python3 -m unittest discover -s tests
-python3 -m py_compile scripts/humanize_skill.py tests/test_humanize_skill.py
-python3 scripts/humanize_skill.py review README.md --format json
-```
-
-The helper uses only the Python standard library.
+Validate the skill by running realistic prompts through Codex or Claude and saving the run in `examples/<scenario>/codex-run.md` or an equivalent agent-run note. The pass/fail question is whether the agent preserves meaning, matches the requested voice, removes AI residue semantically, and handles unsupported claims conservatively.
 
 ## Roadmap
 
-- Add source-quality scoring for external references.
 - Add optional domain presets for product copy, README prose, essays, and social posts.
-- Add CI-oriented exit codes for unsupported or possibly wrong claims.
-- Add more archive readers for common chat/social export formats.
 - Add examples showing voice profiles from bilingual samples.
+- Add more examples that use Claude Gmail, Slack, or Drive connectors as real voice sources.
 
 ## References
 
@@ -461,7 +407,8 @@ The helper uses only the Python standard library.
 
 ## Version History
 
-- 0.2.0 - Added Codex-run examples with saved intermediate artifacts, a new README hero focused on user inputs and fact verification, a review CLI command, and README sections modeled after `blader/humanizer`'s install/use/pattern clarity.
+- 0.3.0 - Removed the misleading CLI layer. The skill is now agent-native: Codex or Claude performs the semantic rewrite, with examples documenting real agent runs.
+- 0.2.0 - Added Codex-run examples with saved intermediate artifacts, a new README hero focused on user inputs and fact verification, and README sections modeled after `blader/humanizer`'s install/use/pattern clarity.
 - 0.1.0 - Initial skill workflow with AI-pattern cleanup, voice profiling, local source ingestion, and lightweight fact-checking.
 
 ## License

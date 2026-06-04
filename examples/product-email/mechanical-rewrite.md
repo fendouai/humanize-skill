@@ -1,1 +1,0 @@
-Our groundbreaking workspace is a pivotal solution for busy teams, showcasing how they can unlock straightforward async collaboration across the modern AI landscape. The product includes a local voice profile, claim review, and a Markdown report export, and it can cut editing time in half for every team. It is a trust layer for the future of work.

@@ -43,10 +43,10 @@ canonical text with source label
 style statistics + examples summary
         |
         v
-compact voice_profile.json
+compact voice profile notes
 ```
 
-The profile is small, inspectable JSON. It should not contain full account dumps.
+The profile can be saved as small, inspectable notes or JSON. It should not contain full account dumps.
 
 ## Oumi HallOumi
 
@@ -83,11 +83,14 @@ claim extraction
 
 ## Proposed architecture
 
-The open-source project has three layers:
+The open-source project has four small layers:
 
 1. `SKILL.md`: the agent-facing workflow and completion contract.
-2. `scripts/humanize_skill.py`: a dependency-free helper for repeatable local passes.
-3. `docs/`: reference notes, source-ingestion guidance, and examples.
+2. `docs/`: reference notes and source-ingestion guidance.
+3. `examples/`: real agent runs with draft, sample, evidence, notes, and final output.
+4. `assets/`: README visual assets.
+
+There is no CLI layer. The host model performs the semantic rewrite, while the skill supplies the process, guardrails, and artifact shape.
 
 ## Source ingestion policy
 

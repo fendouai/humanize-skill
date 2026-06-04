@@ -104,7 +104,16 @@ Scan for and fix:
 - excessive bold, emoji, Title Case headings, em dashes, and decorative formatting
 - diff-anchored writing: "we added this to replace..." when the user needs what it does
 
-Rewrite instead of only deleting. Preserve the original meaning, coverage, and constraints.
+Use this list as diagnosis, not as a rules engine. Rewrite instead of only deleting. Preserve the original meaning, coverage, and constraints.
+
+Do not leave formula fragments behind. For example, if a draft says "not just a tool, but a complete ecosystem", rewrite the whole sentence as a complete thought instead of deleting only "not just a tool, but".
+
+When the draft contains unsupported numbers, vague attributions, or promotional claims, decide semantically what should happen:
+
+- remove invented specifics such as "300%" or "500%" unless evidence supports them
+- replace vague authority such as "experts suggest" with a named source, or cut it
+- soften claims that are plausible but unverified
+- keep useful concrete facts even if the surrounding sentence sounds AI-generated
 
 ### 4. Humanize with the user's profile
 
@@ -173,20 +182,24 @@ If the user asks for a report, include:
 - claim table with status and evidence
 - final rewrite
 
-## Local helper
+## Agent-native execution
 
-This repo includes a standard-library CLI:
+This skill does not depend on a CLI or regex rewrite pass. The host agent, such as Codex or Claude, performs the actual semantic rewrite.
 
-```bash
-python3 scripts/humanize_skill.py profile samples/*.txt --out .humanize-skill/profile.json
-python3 scripts/humanize_skill.py audit draft.md
-python3 scripts/humanize_skill.py humanize draft.md --profile .humanize-skill/profile.json
-python3 scripts/humanize_skill.py factcheck draft.md --evidence sources/*.md
-python3 scripts/humanize_skill.py factcheck draft.md --evidence sources/*.md --include-style-only
-python3 scripts/humanize_skill.py review draft.md --profile .humanize-skill/profile.json --evidence sources/*.md --out review.md
-python3 scripts/humanize_skill.py factcheck draft.md --external
-```
+Pattern catalogs are useful for inspection, but the final text must be produced with editorial judgment:
 
-Use it when a mechanical local pass helps, but do not treat it as a substitute for editorial judgment.
+- understand the sentence before changing it
+- rewrite broken structures as complete sentences
+- preserve meaning and constraints
+- remove or soften unsupported facts
+- match the user's sample rhythm when samples are available
+- keep a compact note of what changed when the user asks for process visibility
 
-The `review` command is useful when the user wants an inspectable report. It combines the audit, rewrite, and fact-check result as Markdown by default, or JSON with `--format json`.
+When running an end-to-end example, save human-readable artifacts rather than tool-generated JSON:
+
+- `draft.md`
+- `sample.txt` when a voice sample exists
+- `evidence.md` when factual claims are checked
+- `notes.md` for diagnosis, voice profile, claim decisions, and rewrite choices
+- `final.md` for the final humanized text
+- `codex-run.md`, `claude-run.md`, or equivalent for the real agent run

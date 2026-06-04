@@ -33,13 +33,14 @@ Best voice sources, when available:
 5. Chat exports.
 6. Short pasted samples.
 
-## Supported local formats
+## Agent-supported local sources
 
-The helper currently reads:
+The host agent can use whatever local reading tools are available in the environment. In practice, user-controlled sources usually include:
 
 - `.txt`, `.md`, and other plain text files
-- `.json` and `.jsonl`, recursively collecting text-like fields
-- `.csv` and `.tsv`, reading common text columns such as `text`, `body`, `content`, `message`, and `full_text`
+- `.json` and `.jsonl` exports with text-like fields
+- `.csv` and `.tsv` exports with columns such as `text`, `body`, `content`, `message`, and `full_text`
+- folders of notes, posts, support replies, newsletters, or chat/email exports selected by the user
 
 This is enough for many X/Twitter archive extracts, chat exports, newsletter drafts, support replies, and note collections after light preprocessing.
 
@@ -51,9 +52,9 @@ This is enough for many X/Twitter archive extracts, chat exports, newsletter dra
 - Use only user-controlled data.
 - Treat live connectors as optional, explicit, and revocable.
 
-## Profile shape
+## Compact profile shape
 
-The local helper writes inspectable JSON:
+The agent can summarize samples into a compact inspectable profile like this:
 
 ```json
 {

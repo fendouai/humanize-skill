@@ -1,5 +1,5 @@
-The CLI reads Markdown/plain text, JSON, JSONL, CSV, and TSV files.
+The skill is agent-native. The host model performs the semantic rewrite; there is no required rewrite CLI.
 
-The helper uses only Python standard-library modules.
+The workflow can use pasted drafts, writing samples, selected local files, exported archives, evidence files, or authorized connectors exposed by the host agent.
 
-The fact-checker compares claim-like sentences with provided evidence and can optionally search external references. It is conservative and does not guarantee perfect accuracy.
+The fact-check pass compares claim-like sentences with provided evidence first and can use current external references when the host has search tools. It is conservative and does not guarantee perfect accuracy.

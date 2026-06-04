@@ -1,5 +1,5 @@
-The local helper stores voice profiles in files selected by the user.
+The skill does not sync writing profiles across channels by itself.
 
-There is no automatic cross-channel synchronization in the helper.
+The workflow uses text, files, exports, or authorized connectors selected by the user for a given run.
 
-The project cannot guarantee that user data is always safe. It can say user data stays user-controlled when the workflow uses local files.
+The project cannot guarantee that user data is always safe. It can say user data stays user-controlled when the workflow uses pasted samples, selected local files, selected exports, or explicitly authorized connectors.
