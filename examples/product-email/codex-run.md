@@ -8,7 +8,7 @@ Mode: agent-native semantic rewrite, no CLI or regex rewrite pass
 
 - Surface: product launch email.
 - Audience: practical product and editorial teams.
-- Goal: make the announcement direct and credible.
+- Goal: improve launch-note quality by making the announcement direct, credible, and evidence-aware.
 - Evidence policy: keep feature claims supported by the evidence file; soften any performance claim without benchmark support.
 
 ## Voice Profile

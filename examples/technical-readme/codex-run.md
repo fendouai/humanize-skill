@@ -8,7 +8,7 @@ Mode: agent-native semantic rewrite, no CLI or regex rewrite pass
 
 - Surface: README / project documentation.
 - Audience: developers evaluating whether to install the skill.
-- Goal: explain behavior and limits without marketing language.
+- Goal: improve README quality by explaining behavior and limits without marketing language.
 - Evidence policy: preserve agent-native workflow claims; remove file-format, dependency, and perfect-accuracy promises that belonged to the removed CLI.
 
 ## Voice Profile

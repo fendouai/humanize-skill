@@ -14,7 +14,9 @@
   <img alt="Skill" src="https://img.shields.io/badge/skill-Codex%20%7C%20Claude%20Code%20%7C%20OpenCode-black?style=flat">
 </p>
 
-`humanize-skill` is a lightweight open-source skill for rewriting AI-looking text into a real human voice, preferably the user's own voice, while keeping factual claims grounded in evidence.
+`humanize-skill` is a lightweight open-source skill for improving AI-looking or rough drafts: less hype, more real voice, and factual claims grounded in evidence.
+
+It is not designed to bypass AI detectors, and it does not guarantee detector outcomes.
 
 It is built from three reference ideas:
 
@@ -30,13 +32,30 @@ Most "humanize AI" tools only change the surface. They delete em dashes, add con
 
 That is not enough.
 
-Good humanized writing needs three things at once:
+Good humanized writing is a quality problem, not a detector-evasion problem. It needs three things at once:
 
 - **Voice**: it should sound like the person, not like generic "friendly SaaS copy".
 - **Restraint**: it should remove AI tells without injecting fake personality.
 - **Grounding**: it should not make unsupported facts sound more confident.
 
 `humanize-skill` treats humanization as an editorial pipeline, not a vibe filter.
+
+## Boundary
+
+This skill improves writing quality and factual grounding. It is not designed to bypass AI detectors, and it does not guarantee detector outcomes.
+
+Use it to:
+
+- remove chatbot residue, hype, filler, vague authority, and unsupported claims
+- match the user's real voice when samples or authorized sources are available
+- make drafts clearer, more specific, and easier to review
+- fact-check risky or specific claims before publishing
+
+Do not use it to:
+
+- promise a pass on GPTZero, Originality.ai, Turnitin, or similar tools
+- add fake typos, awkwardness, slang, or random rhythm just to manipulate a detector
+- replace honest authorship disclosure policies where they apply
 
 ## Features
 
@@ -47,6 +66,7 @@ Good humanized writing needs three things at once:
 - **Conservative support labels**: returns `supported`, `needs_evidence`, `possibly_wrong`, or `style_only`.
 - **Agent-native semantic rewrite**: Codex or Claude does the actual rewrite with context and judgment, not a regex script.
 - **Skill-native workflow**: [SKILL.md](./SKILL.md) is the product, ready to install in Codex/Claude Code/OpenCode-style environments.
+- **Detector-boundary clarity**: improves prose and grounding without claiming or optimizing for AI-detector evasion.
 
 ## Installation
 
@@ -114,6 +134,8 @@ Please humanize this text:
 
 This runs the default pass: remove AI-writing residue, preserve meaning, and flag factual claims that need evidence.
 
+If your real goal is stronger personal voice, provide samples or authorized writing sources. Without real voice data, the skill can improve clarity and reduce hype, but it should not pretend to clone your style.
+
 ### Voice Calibration
 
 To match your own voice, add one short writing sample:
@@ -175,7 +197,7 @@ The fact-checker is intentionally conservative. It does not mark a claim as supp
 
 ## Patterns Detected
 
-The pattern list is inspired by `blader/humanizer`'s README style, but extended for user voice and fact-checking. The goal is not to make text quirky. The goal is to remove generic AI residue, preserve the user's rhythm, and avoid unsupported confidence.
+The pattern list is inspired by `blader/humanizer`'s README style, but extended for user voice and fact-checking. The goal is not to make text quirky or bypass detectors. The goal is to remove generic AI residue, preserve the user's rhythm, and avoid unsupported confidence.
 
 | Area | Pattern | AI-looking version | Humanized handling |
 | --- | --- | --- | --- |

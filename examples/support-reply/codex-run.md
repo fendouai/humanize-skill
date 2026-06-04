@@ -8,7 +8,7 @@ Mode: agent-native semantic rewrite, no CLI or regex rewrite pass
 
 - Surface: support reply.
 - Audience: user with a profile/export issue.
-- Goal: be calm, useful, and accurate.
+- Goal: improve support quality by being calm, useful, accurate, and careful about unsupported product behavior.
 - Evidence policy: remove unsupported sync and absolute safety claims.
 
 ## Voice Profile

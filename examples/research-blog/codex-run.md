@@ -8,7 +8,7 @@ Mode: agent-native semantic rewrite, no CLI or regex rewrite pass
 
 - Surface: blog introduction.
 - Audience: readers who want a sober explanation of the writing problem.
-- Goal: open with the tension, not fake urgency.
+- Goal: improve the blog opening by naming the real tension without fake urgency or unsupported statistics.
 - Evidence policy: remove unsupported statistics and soften claims about hallucination prevention.
 
 ## Voice Profile

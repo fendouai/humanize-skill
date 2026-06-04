@@ -8,7 +8,7 @@ Mode: agent-native semantic rewrite, no CLI or regex rewrite pass
 
 - Surface: personal social post.
 - Audience: followers who respond better to understated build notes than launch copy.
-- Goal: keep the post personal and concise.
+- Goal: improve the post by keeping it personal, concise, and honest about what the skill can do.
 - Evidence policy: do not imply automatic social scraping; say samples or exported posts.
 
 ## Voice Profile
