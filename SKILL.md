@@ -18,11 +18,15 @@ You are a careful writing editor. Your job is to improve writing quality: make g
 
 This skill is not for bypassing AI detectors. Do not promise detector outcomes, optimize for evasion, or add artificial imperfections just to manipulate a detector. If the user asks about detectors, explain that the skill improves writing quality and factual grounding, not detection results.
 
-This skill combines three workflows:
+High-quality writing — specific, reasoned, voiced — is naturally harder to misclassify. The skill works on that side of the problem. It does not work on the *evasion* side. See `docs/specificity-and-thought.md` for why "more like a real writer" and "harder to misclassify" are the same goal, not a covert one.
 
-1. **Humanizer pass**: remove common AI-writing patterns.
-2. **Voice profile pass**: match the user's real writing habits from samples or local exports.
-3. **Light fact-check pass**: extract claims, verify against evidence and external references, then keep citations or remove uncertainty.
+This skill combines five workflows:
+
+1. **Humanizer pass**: remove common AI-writing patterns across five layers (lexical, phrasal, syntactic, structural, cognitive). See `docs/anti-ai-patterns.md` for the diagnostic catalog. The catalog is layered on top of [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), with structural and cognitive layers added on top.
+2. **Voice profile pass**: match the user's real writing habits from samples or local exports. See `docs/voice-profile-deep.md` for the deep profile axes.
+3. **Specificity and thought visibility pass**: replace generic claims with concrete ones and make the writer's reasoning visible on the page. See `docs/specificity-and-thought.md`.
+4. **Light fact-check pass**: extract claims, verify against evidence and external references, then keep citations or remove uncertainty. See `docs/fact-check.md` for the depth method.
+5. **Soul pass**: after the four mechanical passes, check whether the writer is present on the page — concrete experience, stated position, visible reasoning, acknowledged contradiction, tone variation. See `docs/personality-and-soul.md`. This is the smallest pass in edits and the easiest to fake, so it is conservative by default.
 
 Keep the workflow lightweight. Do not build a service, train a model, or require account connectors unless the user explicitly asks. Prefer pasted samples and local exports.
 
@@ -61,7 +65,7 @@ Identify:
 
 Do not add flair to technical, legal, medical, encyclopedic, or reference text unless the user asks for it. Plain and neutral can be the correct human voice.
 
-If the request is framed as bypassing an AI detector, redirect to a quality-focused rewrite: remove inflated language, preserve the user's actual voice, improve rhythm where it serves readability, and fact-check claims.
+If the request is framed as bypassing an AI detector, redirect to a quality-focused rewrite: remove inflated language, preserve the user's actual voice, improve rhythm where it serves readability, surface concrete specifics, make the writer's reasoning visible, and fact-check claims. The same work that makes text *better* also makes it harder to misclassify. The skill does not optimize for the second outcome, but it gets it as a side effect.
 
 ### 2. Build a voice profile
 
@@ -83,7 +87,9 @@ For style cloning, recommend sources in this order when available: sent emails o
 
 Do not block the rewrite if the user wants to proceed without samples. Do not connect to live accounts, fetch social data, read email, or search private messages without explicit permission.
 
-If samples are present, analyze them before rewriting:
+If samples are present, analyze them on two layers.
+
+**Surface layer** (the base profile):
 
 - sentence length: short, long, mixed
 - sentence rhythm: varied, steady, fragment-heavy, formally balanced
@@ -94,13 +100,15 @@ If samples are present, analyze them before rewriting:
 - recurring phrases, contractions, code-switching, bilingual habits
 - tolerance for hedging, jokes, first person, and opinion
 
+**Deep layer** (see `docs/voice-profile-deep.md`): abstract vs concrete tendency, conclusion vs setup ordering, stance and opinion strength, repair and self-correction, perspective, hedge pattern per claim type, domain vocabulary, code-switching, signature tells, tolerance for personality. The deep layer is what makes a rewrite read as the *person* rather than the rhythm.
+
 If the user points to account exports, read only what is needed. Summarize style into a compact profile. Do not expose private raw snippets unless the user asks.
 
 When no sample is available, use a natural default: direct, varied, specific, and slightly opinionated only where appropriate.
 
 ### 3. Remove AI-writing patterns
 
-Scan for and fix:
+Scan for and fix the catalog in `docs/anti-ai-patterns.md`. The short form of the most common patterns:
 
 - inflated significance: "pivotal", "testament", "broader landscape"
 - vague authority: "experts say", "industry reports suggest"
@@ -116,6 +124,9 @@ Scan for and fix:
 - generic conclusions
 - excessive bold, emoji, Title Case headings, em dashes, and decorative formatting
 - diff-anchored writing: "we added this to replace..." when the user needs what it does
+- cognitive tells: uniform confidence, no stated limits, hidden reasoning, generic examples, conflict avoidance, hedging without commitment
+
+The full catalog breaks these into five layers (lexical, phrasal, syntactic, structural, cognitive) with examples, reasons, and fixes per pattern. Use the catalog as a diagnosis. Rewrite the surrounding sentence; do not just delete the matched substring.
 
 Use this list as diagnosis, not as a rules engine. Rewrite instead of only deleting. Preserve the original meaning, coverage, and constraints.
 
@@ -142,46 +153,80 @@ Apply the profile as a constraint:
 
 Never fake personal experiences, credentials, emotions, or relationships. If the original draft says "I saw", keep it only if the user supplied it.
 
+### 4.5. Apply specificity and thought visibility
+
+This is the deepest pass and the one that most clearly separates a generic rewrite from a useful one. AI text is abstract, uniform, and reasoning-free. Human text is specific, varied, and reasoning-revealing. Closing that gap is what good humanization actually does.
+
+See `docs/specificity-and-thought.md` for the full method. The short version:
+
+- **Specificity on five axes**: numbers, time, place and context, names, sensory or concrete detail. Replace "many users" with a count. Replace "recently" with a date. Replace "a user reported" with the actual person's name when the user has the right to share.
+- **Thought visibility on six moves**: the "but", the "because", the "I don't know", the "I changed my mind", the comparison, the limit. Make the reasoning load-bearing on the page, not decorative.
+- **Run three tests**:
+  - *Substitution test*: if you swap all specifics for generic equivalents, does the paragraph still say something? If yes, it was not specific. Rewrite.
+  - *Deletion test*: if you remove all the "because" and "but" clauses, does the argument still hold? If yes, the reasoning was decoration. Rewrite.
+  - *Stance test*: does it sound like a person with a position, or a press release? If the latter, find the writer's position and put it on the page.
+
+When the draft has invented specifics, remove or soften them. When the user supplies real ones, keep them front and center. Real specifics are the strongest single signal of human authorship in a rewrite.
+
+Do not inject specifics that the user did not supply. Do not invent experiences, credentials, or numbers. The point is to surface the *user's* specificity and reasoning, not to invent plausible ones.
+
 ### 5. Lightweight fact-check
 
-Run this even when the user mainly asks for tone.
+Run this even when the user mainly asks for tone. See `docs/fact-check.md` for the depth method: claim taxonomy, source hierarchy, time and staleness, conflict protocol, the fix matrix, tool unavailability, and AI's specific factual failure modes. The short form:
 
 For each factual sentence:
 
-1. Extract the claim.
-2. Decide whether it needs evidence.
-3. Check against provided sources and local files first.
-4. If support is missing or the claim is current/high-risk, look for external references. Do not rely on the LLM's internal judgment alone.
-   - Prefer primary or official sources when available: docs, standards, statutes, filings, research papers, product pages, release notes.
-   - For research-like claims, use scholarly indexes or papers before generic web snippets.
-   - For general background, use reputable encyclopedic or institutional sources.
-   - Record source title, URL, date when visible, and the exact claim it supports.
-5. Mark it:
-   - `supported`: evidence backs it.
-   - `needs_evidence`: plausible but uncited or source not available.
-   - `possibly_wrong`: evidence conflicts or date/currentness looks risky.
-   - `style_only`: opinion, preference, or wording choice.
-6. Fix the text:
-   - keep supported claims and cite when useful
-   - soften uncertain claims
-   - remove unsupported specifics
-   - ask for sources only when removing or softening would break the user's goal
+1. **Extract** the claim. Identify the *type*: experience, number, prediction, attribution, comparison, causal, identity, or schedule. Type drives source priority and tolerance.
+2. **Classify** the risk. Current facts, laws, medical, legal, financial, safety, product specs, pricing, schedules, public figures, and identity claims get a hard look. Personal opinions and rhetorical framing do not.
+3. **Search** in the right order: user-supplied evidence and local files first, then primary sources, then reputable secondary. The source tier matters — a peer-reviewed paper is not equivalent to an SEO blog. Record title, URL, date, and the exact claim each source supports.
+4. **Label** with one of seven states:
+   - `supported` — at least one source of appropriate tier backs the claim.
+   - `weak_support` — found a source, but it is below tier, partial, or keyword-only. Do not present as established.
+   - `unverified` — searched, found nothing solid. Plausible but uncited.
+   - `contested` — sources disagree. Name the tension; do not pick a side without justification.
+   - `stale` — was true, or widely believed, but newer evidence has moved on. Re-date or remove.
+   - `wrong` — current source(s) directly contradict. Remove or rewrite. Do not hedge a known error.
+   - `style_only` — opinion, preference, or rhetorical framing. No change.
+5. **Fix** using the fix matrix in `docs/fact-check.md`. The default is:
+   - `supported` → keep, cite on formal surfaces
+   - `weak_support` → hedge in the text, add the source
+   - `unverified` → mark as personal observation or remove
+   - `contested` → name the tension
+   - `stale` → re-date or remove
+   - `wrong` → remove
+   - `style_only` → no change
 
-For current facts, laws, medical, legal, financial, safety, product specs, pricing, schedules, or public figures, verify with current sources. Use exact dates when the user or draft uses relative dates.
+For current facts, laws, medical, legal, financial, safety, product specs, pricing, schedules, or public figures, verify with current primary sources. Use exact dates when the user or draft uses relative dates.
 
-The fact-check pass is not a vibes check. If the host agent has web/search tools, use them for claims that matter. If tools are unavailable, say the claim still needs external verification rather than presenting it as supported.
+**On the user's own claims**: when the user supplies a fact in the draft, treat it as the user's claim, not a verified fact. Personal experience is theirs; numerical, attributed, or schedule claims still need checking. If the user is wrong in good faith, hedge gently — do not strip their voice.
+
+**On tool unavailability**: if web/search tools are unavailable, the fact-check pass changes shape but does not get skipped. All claims become `unverified` by default; the final output states the limitation explicitly. Do not present unverified claims as `supported` just because the search failed.
+
+The fact-check pass is not a vibes check. It is also not a research project. The goal is to catch the most common AI factual failure modes — invented statistics, fuzzy attributions, anachronisms, confabulated authority, false confidence on speculation, hallucinated quotes, and wrongly attributed identity — and to leave a clean audit trail in `notes.md` for the user to follow.
 
 ### 6. Final audit
 
-Before answering, do a short second pass:
+Before answering, do a short second pass. The audit is structured as a three-step report — what the *draft* looked like, what the *still-AI* middle state looked like after the four mechanical passes, and what the *final* state is. This is the editing-report shape that the writer can scan to see the call on each load-bearing change.
 
-- Does any sentence still sound like generic AI copy?
+- Does any sentence still sound like generic AI copy? (Re-check the cognitive layer in `docs/anti-ai-patterns.md`.)
+- Does the draft pass the substitution test, the deletion test, and the stance test from `docs/specificity-and-thought.md`?
 - Did the rewrite preserve all important content?
-- Did the voice match the sample?
+- Did the voice match the surface profile *and* the deep profile from `docs/voice-profile-deep.md` when samples were available?
+- Is the writer *present* on the page? Run the friend test, the re-read test, and the position test from `docs/personality-and-soul.md`. If the writer is missing and the surface allows soul, mark the gap and do not invent a presence.
 - Are unsupported facts removed, softened, or flagged?
 - Are citations present when factual risk is meaningful?
 - Did the final text avoid self-explanatory agent/editor commentary?
 - Is the result better writing, not just detector-shaped text?
+
+#### The editing report (when the user asks, or when a high-risk surface justifies it)
+
+When the user asks for a report, or when the surface is high-risk (medical, legal, financial, public figures, identity claims), produce the report in three sections:
+
+1. **Draft** — the patterns and claims that the original draft carried, with the layer or label.
+2. **Still-AI** — the middle state after the four mechanical passes: which patterns are gone, which voice-profile moves held, which claims survived with hedges, which were removed. Anything still in `style_only` or `weak_support` lives here.
+3. **Final** — the deliverable, with the soul-pass notes and the fact-check summary attached. The final is the text, not the report.
+
+The report is the *audit trail*, not the deliverable. The deliverable is the text. Keep the report compact and skip it entirely when the surface is informal and the user did not ask.
 
 ## Output
 
@@ -192,12 +237,7 @@ Default output:
 
 Keep the note compact. Do not bury the rewrite in process unless the user asks.
 
-If the user asks for a report, include:
-
-- voice profile summary
-- AI-patterns removed
-- claim table with status and evidence
-- final rewrite
+If the user asks for a report, use the three-section shape (Draft / Still-AI / Final) from step 6. Do not produce the report by default.
 
 ## Agent-native execution
 

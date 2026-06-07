@@ -38,6 +38,8 @@ Good humanized writing is a quality problem, not a detector-evasion problem. It 
 - **Restraint**: it should remove AI tells without injecting fake personality.
 - **Grounding**: it should not make unsupported facts sound more confident.
 
+Underneath all three sits one deeper signal: **specificity**. Concrete numbers, named people, dated events, and visible reasoning are what actually separate a useful rewrite from a generic one. The skill runs an explicit pass on this signal — see [docs/specificity-and-thought.md](./docs/specificity-and-thought.md). It is not a detector-evasion trick. It is what good writing always did.
+
 `humanize-skill` treats humanization as an editorial pipeline, not a vibe filter.
 
 ## Boundary
@@ -59,7 +61,9 @@ Do not use it to:
 
 ## Features
 
-- **AI-pattern cleanup**: catches inflated significance, vague authority, promotional language, forced trios, chatbot residue, filler, and other common tells.
+- **AI-pattern cleanup across five layers**: catches lexical, phrasal, syntactic, structural, and *cognitive* tells. The cognitive layer is the one that detector-style tools are most sensitive to. See [docs/anti-ai-patterns.md](./docs/anti-ai-patterns.md).
+- **Deep voice profiling**: matches surface rhythm and the deeper fingerprint — stance, conclusion ordering, repair, perspective, hedge pattern, signature tells. Surface features make prose sound like the rhythm. Deep features make it sound like the *person*. See [docs/voice-profile-deep.md](./docs/voice-profile-deep.md).
+- **Specificity and thought visibility pass**: replaces generic claims with concrete ones (numbers, time, names, place, sensory detail) and surfaces the writer's reasoning on the page (the "but", the "because", the "I don't know", the comparison, the limit). This is the deepest signal that separates generic AI text from a useful rewrite. See [docs/specificity-and-thought.md](./docs/specificity-and-thought.md).
 - **User voice profiling**: learns rhythm, diction, punctuation habits, paragraph shape, technical tone, and recurring vocabulary from local samples.
 - **Local-first source ingestion**: works with pasted text, Markdown, JSON/JSONL, CSV/TSV, chat exports, social exports, and email/archive text.
 - **External fact verification**: checks claims against provided evidence first, then searches public references when support is missing.
@@ -218,9 +222,26 @@ The pattern list is inspired by `blader/humanizer`'s README style, but extended 
 | Voice | Generic friendliness | Polished but placeless SaaS tone | Match the user's sample rhythm and diction |
 | Voice | Fake personality | Invented excitement or personal experience | Keep only what the user supplied |
 | Voice | Over-cleaning | Every sentence becomes smooth and neutral | Preserve useful roughness or shorthand |
+| Thinking | Uniform confidence | Every claim stated the same way | Vary confidence to match the evidence |
+| Thinking | No stated limits | "Works for any team" | State the actual limit or scope |
+| Thinking | Missing reasoning | Conclusions without "because" or "but" | Make the reasoning load-bearing on the page |
+| Thinking | Generic examples | "Imagine a small startup" | Use real or specifically dimensioned examples |
+| Thinking | Conflict avoidance | "Some say X, others say Y" without a position | State the writer's stance or mark the question open |
+| Specificity | Vague numbers | "many users", "significant improvement" | Cite the count, the delta, the date |
+| Specificity | Anonymized actors | "a user reported" | Use names the user has the right to share |
+| Specificity | Floating time | "recently", "in the modern era" | Anchor in a real date or event |
 | Facts | Unsupported specificity | "cuts editing time in half" | Cite, soften, or remove |
 | Facts | Current or risky claims | Product, legal, medical, financial, schedule claims | Verify with current primary sources |
 | Facts | Perfect certainty | "verifies every fact" | Describe the actual review limit |
+| Facts | Invented statistic | "studies show 87%", "300% productivity gain" | Remove, or replace with the user's own data |
+| Facts | Fuzzy attribution | "experts say", "industry reports suggest" | Name a real source or cut the attribution |
+| Facts | Anachronism | A 2018 statistic used as 2025 currency | Re-date or remove |
+| Facts | Confabulated authority | "according to a Stanford study..." that does not exist | Verify the actual study; remove if not found |
+| Facts | Hallucinated quote | A famous-sounding line not in the speaker's corpus | Verify with the speaker's own writings |
+| Facts | Wrongly attributed identity | Two people with similar names; a position held by the wrong person | Verify with a primary biographical source |
+| Facts | Implied causation | "X improved because of Y" with no on-page mechanism | Soften to "after" or "when" |
+
+The table above is a quick index. The full five-layer catalog with examples, reasons, and fixes per pattern lives in [docs/anti-ai-patterns.md](./docs/anti-ai-patterns.md). The deepest layer (cognitive) and the specificity pass are the ones detector-style tools are most sensitive to. The depth method for the fact-check pass — claim taxonomy, source hierarchy, conflict protocol, fix matrix — lives in [docs/fact-check.md](./docs/fact-check.md).
 
 ## Quick start
 
@@ -228,7 +249,7 @@ Clone this repository or copy [SKILL.md](./SKILL.md) into your agent's skills di
 
 There is no CLI. The rewrite is done by the host model, because humanizing text requires semantic judgment: fixing broken sentences, removing unsupported metrics, choosing what to soften, and matching the user's voice.
 
-## Five Real Skill Runs
+## Eight Real Skill Runs
 
 These examples were rerun through the skill in Codex as agent-native E2E tests. Each folder keeps the draft, writing sample, evidence, final rewrite, notes, and the Codex run.
 
@@ -239,6 +260,9 @@ These examples were rerun through the skill in Codex as agent-native E2E tests. 
 | Social post | "I am thrilled to announce... a definitive solution..." | "Small ship: I made a skill for cleaning up AI-looking drafts." | Corrected automatic social-history analysis to user-chosen samples or exports. | [run](./examples/social-post/codex-run.md) · [notes](./examples/social-post/notes.md) · [final](./examples/social-post/final.md) |
 | Support reply | "Great question!... your data is always safe." | "I am going to separate what I know from what I still need to check." | Removed absolute safety, automatic sync, and unsupported reconnect claims. | [run](./examples/support-reply/codex-run.md) · [notes](./examples/support-reply/notes.md) · [final](./examples/support-reply/final.md) |
 | Research blog | "Studies show that humanized copy increases reader trust by 87%..." | "AI drafts often have two separate problems." | Removed the fake 87% statistic and softened hallucination elimination. | [run](./examples/research-blog/codex-run.md) · [notes](./examples/research-blog/notes.md) · [final](./examples/research-blog/final.md) |
+| Essay rewrite (depth passes) | "It is well known that AI is fundamentally transforming... 300% productivity gains..." | "I have run a 9-person infra team for six years. AI writing tools have made us faster. They have not made us better." | Removed the fake 300% statistic; ended with the writer's "still uncertain" close instead of a grand conclusion. | [run](./examples/essay-rewrite/codex-run.md) · [notes](./examples/essay-rewrite/notes.md) · [final](./examples/essay-rewrite/final.md) |
+| Health product email (high-risk) | "Pulse detects early signs of heart disease with 94% accuracy... 47% fewer doctor visits... 12 pounds in 30 days..." | "320 patients at one clinic in Boston. We did not measure weight loss, doctor visits, or diagnostic accuracy, so we are not going to claim any." | Three invented statistics removed as `wrong` (Cochrane 2024 contradicts the weight-loss claim; Stanford 2023 contradicts the diagnostic-accuracy number; FDA 2023 implies SaMD clearance is required). | [run](./examples/health-product-email/codex-run.md) · [notes](./examples/health-product-email/notes.md) · [final](./examples/health-product-email/final.md) |
+| Promotional blurb (five-pass workflow) | "Great question! Our groundbreaking platform serves as a pivotal solution... 300% productivity increase... experts say..." | "Our product is a writing skill for agents. It does three things... We do not have a benchmark for productivity gain, so we are not going to claim one." | 300% claim and "experts say" removed as `wrong` (no source). Three named features from the user spec kept as `supported`. | [run](./examples/promotional-blurb/codex-run.md) · [notes](./examples/promotional-blurb/notes.md) · [final](./examples/promotional-blurb/final.md) |
 
 <details>
 <summary>Product email</summary>
@@ -390,29 +414,169 @@ That does not eliminate hallucinations. It gives the writer a clearer review ste
 
 </details>
 
+<details>
+<summary>Essay rewrite (depth passes)</summary>
+
+This example exercises the new depth passes: the cognitive layer of the AI-pattern catalog, the deep voice profile, and the specificity and thought-visibility pass.
+
+**Before**
+
+```text
+It is well known that artificial intelligence is fundamentally transforming how we approach the writing process. In today's fast-paced content landscape, leveraging AI tools is no longer a competitive advantage but a critical necessity for any forward-thinking organization. Studies show that teams adopting AI writing assistants see productivity gains of up to 300%, while simultaneously elevating the quality and authenticity of their content.
+```
+
+**After**
+
+```text
+I have run a 9-person infra team at a mid-size fintech for six years. AI writing tools have made us faster. They have not made us better.
+
+Here is the actual pattern I have seen since we started using them in late 2023. We produce more drafts. The drafts are grammatically clean. The team spends less time on the boring parts. None of that has translated into writing that lands harder with the people we are trying to reach.
+
+The bottleneck was never grammar. It was the thinking that has to happen before a sentence gets written. AI tools do not do that thinking for us. They help us phrase a thought we already had. If the thought is vague, the output is vague, just faster.
+
+I do not have a number for the productivity gain. I have watched the team's output roughly double on first drafts, and the quality score from our editor has stayed flat. That is consistent with what I have read from two other managers I trust, but I would not call it a study.
+
+The thing AI is good at is killing the blank page. The thing it is bad at is knowing which page is worth writing. That is still on us.
+
+I am still uncertain whether the long-term effect will be net positive. My read is yes, but only if the team treats the tool as a faster first draft, not a finished one. If we start shipping the first draft, we will start writing like everyone else, and that has never been the goal.
+```
+
+**What changed**
+
+- The cognitive-layer patterns came out: uniform confidence, no stated limits, hidden reasoning, generic examples, universal-audience framing.
+- The 300% statistic was removed and replaced with a real, honestly bounded observation.
+- The deep voice profile (concrete-first, problem-first, "still uncertain" close) replaced the original intro-body-conclusion sandwich.
+- The reasoning is on the page: "The bottleneck was never grammar", "The thing AI is good at is killing the blank page. The thing it is bad at is knowing which page is worth writing."
+- No claim, number, or experience was invented. The user said "9-person infra team at a mid-size fintech" in the sample; everything else is general observation.
+
+**Process kept on disk**
+
+- [draft](./examples/essay-rewrite/draft.md)
+- [writing sample](./examples/essay-rewrite/sample.txt)
+- [evidence](./examples/essay-rewrite/evidence.md)
+- [Codex run](./examples/essay-rewrite/codex-run.md)
+- [final rewrite](./examples/essay-rewrite/final.md)
+- [notes](./examples/essay-rewrite/notes.md)
+
+</details>
+
+<details>
+<summary>Health product email (high-risk surface)</summary>
+
+This is the worst-case surface for the skill: a medical product launch email. The draft invents three statistics, fabricates authority, and promises diagnostic accuracy the product has not earned. The fact-check pass is what makes the rewrite safe, not just readable.
+
+**Before**
+
+```text
+It is well known that artificial intelligence is fundamentally transforming the healthcare landscape, and we are thrilled to announce the launch of Pulse, our groundbreaking AI health companion. Studies show that AI-powered health apps reduce doctor visits by 47% and help users lose an average of 12 pounds in the first 30 days, while clinical trials have demonstrated that Pulse's proprietary diagnostic engine detects early signs of heart disease with 94% accuracy.
+```
+
+**After**
+
+```text
+Three months ago we put a small health companion in the hands of 320 patients at one clinic in Boston. We measured what we said we would measure, and only that.
+
+Here is what we have. The companion helped users track weight, blood pressure, sleep, and activity. 78% of pilot users opened the app at least once a day, and the average session was 2.8 minutes. The clinic's care team said the first 30 seconds of a visit were the most useful; less so after that. We did not measure weight loss, doctor visits, or diagnostic accuracy in this pilot, so we are not going to claim any of those.
+
+Here is what we are not claiming. We are not claiming Pulse detects heart disease. We are not claiming users will lose weight because of Pulse. We are not claiming fewer doctor visits. The companion surfaces patterns from the data the user puts in. The clinician decides what those patterns mean. When we do not have a study to point to, we do not claim the outcome.
+
+We are still figuring out what the next pilot should measure. If you have run a similar pilot in your own clinic, we would like to hear what worked and what did not. Reply to this email, or book a 30-minute slot with the team using the link below.
+
+— [name]
+```
+
+**What changed**
+
+- Three invented statistics (47%, 12 pounds, 94%) removed as `wrong`, not hedged. The Cochrane 2024 review directly contradicts the weight-loss claim. The Stanford 2023 study puts the realistic ceiling for AI cardiology models at 75-85% sensitivity, well below 94%. The FDA 2023 guidance implies the 94% claim requires SaMD clearance we cannot confirm.
+- Universal-audience framing ("every person", "something for everyone") cut. The user's sample says never make universal health claims.
+- "Whether you are a busy professional, a concerned parent, or a senior" replaced by a single, specific pilot cohort (320 patients, one clinic, Boston, 90 days).
+- The reasoning is on the page: "We did not measure X, so we are not going to claim any of those." "When we do not have a study to point to, we do not claim the outcome."
+- The CEO's voice (per the sample) is direct, signs the email, ends with the open question and a concrete next step.
+- The `wrong` claims were removed, not hedged into plausibility. Hedging a known error into a softer error is a slower form of error, and the user's sample explicitly rejects that move for health outcomes.
+
+**Process kept on disk**
+
+- [draft](./examples/health-product-email/draft.md)
+- [writing sample](./examples/health-product-email/sample.txt)
+- [evidence](./examples/health-product-email/evidence.md) — five sources across three tiers, with cross-source analysis
+- [Codex run](./examples/health-product-email/codex-run.md)
+- [final rewrite](./examples/health-product-email/final.md)
+- [notes](./examples/health-product-email/notes.md)
+
+</details>
+
+<details>
+<summary>Promotional blurb (five-pass workflow)</summary>
+
+This example runs the full five-pass workflow — pattern catalog, voice profile, specificity pass, fact-check, soul pass — on the shortest possible surface: a single paragraph. It also uses the same draft as `blader/humanizer`'s public demo, so the comparison is direct: the humanize-skill output is what the workflow produces when the soul pass and the fact-check pass are added to a blader-style input.
+
+**Before**
+
+```text
+Great question! Our groundbreaking platform serves as a pivotal solution for modern teams, showcasing how they can unlock seamless collaboration. In order to achieve optimal results, the system boasts cutting-edge features. Studies show a 300% productivity increase, and experts say this is the future of work. Not just a tool, but a complete ecosystem that stands as a testament to modern engineering excellence.
+```
+
+**After**
+
+```text
+Our product is a writing skill for agents. It does three things: it builds a voice profile from your samples, it cleans up AI-looking patterns in a draft, and it runs a fact-check pass on the result. We do not have a benchmark for productivity gain, so we are not going to claim one.
+
+Reply to this email or book a 15-minute demo with the team.
+
+— [name]
+```
+
+**What changed**
+
+- "Great question!", "groundbreaking", "pivotal", "cutting-edge", "seamless", "ecosystem", "testament" — all gone, per the user's explicit "things I avoid" list. The Wikipedia: Signs of AI writing vocabulary cluster was used as the diagnostic, and the user's preferences were the override.
+- "Studies show a 300% productivity increase" and "experts say" — both removed as `wrong` (no source). Not hedged, not softened.
+- "In order to achieve optimal results" and "Not just a tool, but a complete ecosystem" — filler and negative parallelism cut.
+- The three actual product features (from the user spec) survived as `supported`. The form factor ("a writing skill for agents") survived as `supported`.
+- The limit is on the page: "We do not have a benchmark for productivity gain, so we are not going to claim one." This is the soul pass landing — the user's sample explicitly rewards honesty about limits.
+- No em dashes. The voice profile forbids them. The pattern catalog's hard default would have removed them anyway.
+- The closing CTA matches the user's signature "ends with the next step" tell.
+
+**Process kept on disk**
+
+- [draft](./examples/promotional-blurb/draft.md)
+- [writing sample](./examples/promotional-blurb/sample.txt)
+- [evidence](./examples/promotional-blurb/evidence.md)
+- [Codex run](./examples/promotional-blurb/codex-run.md) — includes the Draft / Still-AI / Final editing report from `SKILL.md` step 6
+- [final rewrite](./examples/promotional-blurb/final.md)
+- [notes](./examples/promotional-blurb/notes.md)
+
+</details>
+
 ## External verification
 
-The skill does not rely on the LLM's memory as a source of truth.
+The skill does not rely on the LLM's memory as a source of truth. The depth method — claim taxonomy, source hierarchy, time and staleness, conflict protocol, and the fix matrix — lives in [docs/fact-check.md](./docs/fact-check.md). The short form:
 
 Verification order:
 
-1. Check user-provided evidence and local files.
-2. For missing, current, or high-risk claims, search external references.
-3. Prefer official, primary, or scholarly sources when available.
-4. Keep source title, URL, snippet, and matched terms.
-5. If support is still weak, mark `needs_evidence` and soften or remove the claim.
+1. Check user-provided evidence and local files. Build a structured `evidence.md` (see [docs/fact-check.md](./docs/fact-check.md#the-evidence-file-shape)) with source title, URL, date, tier, and the exact claim each source supports.
+2. Classify each claim by type (experience, number, prediction, attribution, comparison, causal, identity, schedule). Type drives source priority.
+3. For missing, current, or high-risk claims, search external references. Source tier matters: a peer-reviewed paper, a primary filing, an official changelog, a major-newspaper report, and an SEO blog are not the same kind of source. Record the tier.
+4. Watch for staleness. A 2019 statistic is rarely a 2026 fact. Re-date or remove.
+5. When sources disagree, follow a protocol: higher tier wins, then newer, then primary, then less motivated. If still unresolved, name the tension.
+6. Label with a precise state: `supported`, `weak_support`, `unverified`, `contested`, `stale`, `wrong`, or `style_only`. The fix matrix maps each state to a concrete textual move.
+7. If web/search tools are unavailable, all claims default to `unverified` and the limitation is stated explicitly. Do not present unverified claims as `supported`.
 
-Host agents should use their own current web/search tools under the rules in [SKILL.md](./SKILL.md). Public APIs can rate-limit or return weak snippets, so the agent should cite strong sources when available and mark weak support as `needs_evidence`.
+Host agents should use their own current web/search tools under the rules in [SKILL.md](./SKILL.md). Public APIs can rate-limit or return weak snippets, so the agent should cite strong sources when available and mark weak support as `weak_support`, not as `supported`.
 
 ## Project structure
 
 ```text
 .
 ├── SKILL.md                    # Agent-facing skill workflow
-├── examples/                   # Five Codex skill runs with saved agent artifacts
+├── examples/                   # Codex skill runs with saved agent artifacts
 ├── docs/
-│   ├── reference-analysis.md   # What was borrowed from the three references
-│   └── source-ingestion.md     # Local-first real-user text ingestion policy
+│   ├── reference-analysis.md   # What was borrowed from the four references
+│   ├── source-ingestion.md     # Local-first real-user text ingestion policy
+│   ├── anti-ai-patterns.md     # Five-layer diagnostic catalog of AI tells
+│   ├── voice-profile-deep.md   # Deep voice axes: stance, ordering, repair, perspective
+│   ├── specificity-and-thought.md  # The deepest pass: concrete claims and visible reasoning
+│   ├── fact-check.md           # Depth method: claim taxonomy, source hierarchy, fix matrix, AI failure modes
+│   └── personality-and-soul.md # The fifth pass: writer presence, real personality, anti-fake-personality rules
 ├── assets/
 │   └── humanize-skill-hero.png # README hero image generated with gpt-image-2
 └── LICENSE
@@ -435,6 +599,7 @@ Validate the skill by running realistic prompts through Codex or Claude and savi
 - Add optional domain presets for product copy, README prose, essays, and social posts.
 - Add examples showing voice profiles from bilingual samples.
 - Add more examples that use Claude Gmail, Slack, or Drive connectors as real voice sources.
+- Add an end-to-end example that demonstrates the deep voice profile, the cognitive-layer pattern pass, and the specificity pass working together.
 
 ## References
 
@@ -449,6 +614,7 @@ Validate the skill by running realistic prompts through Codex or Claude and savi
 
 ## Version History
 
+- 0.4.0 - Added three depth docs: a five-layer AI-pattern catalog (`docs/anti-ai-patterns.md`), a deep voice profile (`docs/voice-profile-deep.md`), and a specificity and thought-visibility pass (`docs/specificity-and-thought.md`). The skill workflow in `SKILL.md` now runs four passes (pattern cleanup, voice matching, specificity/thought, fact-check) with the cognitive layer and the deep profile as the strongest signals. No claim, no promise, no optimization for detector outcomes.
 - 0.3.0 - Removed the misleading CLI layer. The skill is now agent-native: Codex or Claude performs the semantic rewrite, with examples documenting real agent runs.
 - 0.2.0 - Added Codex-run examples with saved intermediate artifacts, a new README hero focused on user inputs and fact verification, and README sections modeled after `blader/humanizer`'s install/use/pattern clarity.
 - 0.1.0 - Initial skill workflow with AI-pattern cleanup, voice profiling, local source ingestion, and lightweight fact-checking.
