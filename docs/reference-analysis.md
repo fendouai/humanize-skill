@@ -1,6 +1,6 @@
 # Reference analysis
 
-This project uses four references, but keeps the final product intentionally small.
+This project uses five references, but keeps the final product intentionally small.
 
 ## blader/humanizer
 
@@ -142,3 +142,22 @@ What to change:
 - Do not import the Wikipedia list as a hard rules engine. The list is a diagnostic aid. The final rewrite is editorial judgment.
 
 The catalog in `docs/anti-ai-patterns.md` is layered on this source, plus `blader/humanizer`'s curation, plus the structural and cognitive layers this skill adds.
+
+## lynote-ai/humanize-text
+
+This is a 1.1k-star open-source tool whose stated purpose is "Bypass Turnitin, GPTZero, and all major AI detectors". The README documents four humanization methodologies (translation chain, multi-turn LLM rewriting, detection-guided feedback loop, mixed-engine translation) and a "Standard Pipeline" integration that combines the first two.
+
+What to borrow:
+
+- The translation-chain concept: routing text through distant languages (EN → 中文 → 日本語 → Suomi → EN) as a way to disrupt structural fingerprints. The technique is well-known and worth describing honestly, because a user who has chosen the alternative path benefits from seeing the methods documented rather than reinvented.
+- The Standard Pipeline as a documented integration: two LLM rewrites (carrying history) plus two cross-engine translation hops. It is the canonical "best of both" combination in the detection-evasion literature.
+
+What to change:
+
+- **Do not import the pipeline into the default workflow.** The default workflow is a quality-direction pipeline. The translation chain, the detection-guided feedback loop, and the mixed-engine pipeline all serve a different purpose: lowering detector-classification scores. Importing them silently would change the skill's purpose and break the boundary in `SKILL.md` Non-goals and `README.md` Boundary.
+- **Document the methods as an alternative, not as a default.** The user who wants this material opts in by reading [docs/detection-aware-methods.md](./detection-aware-methods.md). The user who does not want it should not see it in their default workflow. The two methodologies are not interchangeable.
+- **Do not borrow the evaluation metric.** lynote-ai measures success by AI-detector confidence (e.g. "0.9997 human"). The skill's evaluation is by writing-quality dimensions, not by detector scores. Borrowing the metric would invert the skill's success criteria.
+- **Do not borrow the marketing framing.** "Bypass" is the framing in lynote-ai. The skill frames the alternative as "detection-aware methods" because that is more honest about what the methods do, and because "bypass" is a word the skill's main workflow refuses to use.
+- **Do not borrow the empirical claims as load-bearing.** "100% key information retention" and "9.1/10 expert quality score" are self-reported metrics from a project with a different purpose. They are not a substitute for this skill's quality direction. The appendix describes the methods, not the marketing claims.
+
+The relationship to this skill is documented in [docs/detection-aware-methods.md](./detection-aware-methods.md), in particular the sections "Why this appendix exists" and "How this appendix relates to the main workflow".

@@ -59,7 +59,13 @@ Do not use it to:
 - add fake typos, awkwardness, slang, or random rhythm just to manipulate a detector
 - replace honest authorship disclosure policies where they apply
 
-## Features
+## Alternative methodology (user opt-in)
+
+The main workflow in this skill is built around writing quality. A separate, optional appendix documents a different methodology whose purpose is to lower AI-detector classification scores. See [docs/detection-aware-methods.md](./docs/detection-aware-methods.md) for the full description, including the translation-chain, multi-turn LLM rewriting, detection-guided feedback, and mixed-engine approaches, plus the Standard Pipeline that combines them.
+
+The two methodologies are not interchangeable. The main workflow is the recommended path. The alternative methodology is documented for reference, for users who have made an informed choice, and for projects whose requirements differ from this skill's main stance.
+
+**The skill does not recommend, default to, or actively promote the alternative methodology.** The non-goals and the boundary in the section above still apply. If you use the alternative methodology, you take responsibility for the trade-offs — voice loss, style loss, meaning drift, no fact guarantee, and detector drift over time. Do not invoke the alternative methodology unless the user has explicitly asked for it.
 
 - **AI-pattern cleanup across five layers**: catches lexical, phrasal, syntactic, structural, and *cognitive* tells. The cognitive layer is the one that detector-style tools are most sensitive to. See [docs/anti-ai-patterns.md](./docs/anti-ai-patterns.md).
 - **Deep voice profiling**: matches surface rhythm and the deeper fingerprint — stance, conclusion ordering, repair, perspective, hedge pattern, signature tells. Surface features make prose sound like the rhythm. Deep features make it sound like the *person*. See [docs/voice-profile-deep.md](./docs/voice-profile-deep.md).
@@ -570,13 +576,14 @@ Host agents should use their own current web/search tools under the rules in [SK
 ├── SKILL.md                    # Agent-facing skill workflow
 ├── examples/                   # Codex skill runs with saved agent artifacts
 ├── docs/
-│   ├── reference-analysis.md   # What was borrowed from the four references
+│   ├── reference-analysis.md   # What was borrowed from the five references
 │   ├── source-ingestion.md     # Local-first real-user text ingestion policy
 │   ├── anti-ai-patterns.md     # Five-layer diagnostic catalog of AI tells
 │   ├── voice-profile-deep.md   # Deep voice axes: stance, ordering, repair, perspective
 │   ├── specificity-and-thought.md  # The deepest pass: concrete claims and visible reasoning
 │   ├── fact-check.md           # Depth method: claim taxonomy, source hierarchy, fix matrix, AI failure modes
-│   └── personality-and-soul.md # The fifth pass: writer presence, real personality, anti-fake-personality rules
+│   ├── personality-and-soul.md # The fifth pass: writer presence, real personality, anti-fake-personality rules
+│   └── detection-aware-methods.md  # Alternative methodology appendix (user opt-in). Not the default workflow.
 ├── assets/
 │   └── humanize-skill-hero.png # README hero image generated with gpt-image-2
 └── LICENSE
