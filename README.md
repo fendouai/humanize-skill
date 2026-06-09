@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/humanize-skill-hero.png" alt="humanize-skill workflow: user writing and social inputs, voice rewrite, fact verification" width="100%">
+  <img src="./assets/humanize-skill-hero.png" alt="humanize-skill core workflow: inputs, five quality features, and grounded outputs" width="100%">
 </p>
 
 <h1 align="center">humanize-skill</h1>
@@ -43,6 +43,10 @@ Underneath all three sits one deeper signal: **specificity**. Concrete numbers, 
 `humanize-skill` treats humanization as an editorial pipeline, not a vibe filter.
 
 ## Core Features
+
+<p align="center">
+  <img src="./assets/humanize-core-features.png" alt="humanize-skill five core features: quality-first humanization, deep voice matching, five-layer diagnosis, specificity and reasoning, fact-aware rewriting" width="100%">
+</p>
 
 ### 1. Quality-first humanization
 
@@ -264,6 +268,10 @@ Save the final rewrite and a compact claim table.
 ```
 
 ## How it works
+
+<p align="center">
+  <img src="./assets/humanize-workflow.png" alt="humanize-skill workflow: draft, samples, and evidence pass through diagnosis, profile, specificity, fact check, and soul pass to final text and notes" width="100%">
+</p>
 
 ```mermaid
 flowchart LR
@@ -660,7 +668,9 @@ Host agents should use their own current web/search tools under the rules in [SK
 │   ├── personality-and-soul.md # The fifth pass: writer presence, real personality, anti-fake-personality rules
 │   └── detection-aware-methods.md  # Alternative methodology appendix (user opt-in). Not the default workflow.
 ├── assets/
-│   └── humanize-skill-hero.png # README hero image generated with gpt-image-2
+│   ├── humanize-skill-hero.png    # README hero: inputs, core features, outputs
+│   ├── humanize-core-features.png # Five core product promises
+│   └── humanize-workflow.png      # End-to-end editorial workflow
 └── LICENSE
 ```
 
