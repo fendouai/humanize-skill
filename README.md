@@ -18,6 +18,20 @@
 
 It is not designed to bypass AI detectors, and it does not guarantee detector outcomes.
 
+## Project Positioning
+
+`humanize-skill` is an agent-native editorial workflow for Codex, Claude Code, and OpenCode-style agents. It does not ship a rewriting CLI or a detector-bypass trick. The host model does the semantic edit; the skill supplies the quality contract, voice calibration rules, AI-pattern diagnosis, specificity pass, and fact-checking obligations.
+
+Use it when a draft needs to become clearer, more specific, more faithful to the author, and safer to publish.
+
+The public promise is five-part:
+
+- **Quality-first humanization**: make the draft clearer, more specific, and more credible instead of chasing detector scores.
+- **Deep voice matching**: use real samples to match the author's rhythm, stance, reasoning style, and expression habits.
+- **Five-layer AI-pattern diagnosis**: diagnose lexical, phrasal, syntactic, structural, and cognitive AI-looking patterns.
+- **Specificity and reasoning pass**: turn empty generalities into text with numbers, context, reasons, limits, and visible trade-offs.
+- **Fact-aware rewriting**: support, weaken, flag, or remove factual claims, especially in product, research, health, and technical writing.
+
 It is built from three reference ideas:
 
 - [blader/humanizer](https://github.com/blader/humanizer): concrete AI-writing pattern cleanup.
@@ -706,6 +720,7 @@ Validate the skill by running realistic prompts through Codex or Claude and savi
 
 ## Version History
 
+- 0.4.1 - Strengthened the public positioning as a quality-first, agent-native editorial skill and refreshed the README visuals with gpt-image-2 assets that foreground the five core promises.
 - 0.4.0 - Added the five core feature contract across `SKILL.md`, `README.md`, and `docs/reference-analysis.md`: quality-first humanization, deep voice matching, five-layer AI-pattern diagnosis, specificity and reasoning, and fact-aware rewriting. Also added depth docs for the AI-pattern catalog, deep voice profile, specificity/thought visibility, and a Wikipedia catalog index mapping local sections to canonical labels. No claim, no promise, no optimization for detector outcomes.
 - 0.3.0 - Removed the misleading CLI layer. The skill is now agent-native: Codex or Claude performs the semantic rewrite, with examples documenting real agent runs.
 - 0.2.0 - Added Codex-run examples with saved intermediate artifacts, a new README hero focused on user inputs and fact verification, and README sections modeled after `blader/humanizer`'s install/use/pattern clarity.

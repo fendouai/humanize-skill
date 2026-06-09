@@ -104,6 +104,18 @@ The project should keep all documentation, examples, and future implementation n
 
 These are not only marketing bullets. They are the completion contract for a successful run.
 
+## Positioning contract
+
+The project should present itself as a quality-first, agent-native editorial skill:
+
+- **Agent-native**: the host model performs semantic rewriting; the repository supplies instructions, reference docs, examples, and visual explanation.
+- **Quality-first**: success is measured by clarity, specificity, voice fidelity, factual grounding, and reviewability, not by detector scores.
+- **User-controlled**: real voice and facts come from pasted text, local files, exports, or explicitly authorized connectors.
+- **Evidence-aware**: specific factual claims must have support, a downgraded confidence level, a note, or removal.
+- **Small and portable**: no training pipeline, background service, required OAuth broker, or mandatory CLI layer.
+
+Future README images, examples, and release notes should foreground the five promises above. Avoid visuals or copy that make the project look like a generic "AI detector bypass" product, a regex cleaner, or a full SaaS platform.
+
 ## Source ingestion policy
 
 Accept only user-controlled data:

@@ -20,6 +20,18 @@ This skill is not for bypassing AI detectors. Do not promise detector outcomes, 
 
 High-quality writing — specific, reasoned, voiced — is naturally harder to misclassify. The skill works on that side of the problem. It does not work on the *evasion* side. See `docs/specificity-and-thought.md` for why "more like a real writer" and "harder to misclassify" are the same goal, not a covert one.
 
+## Positioning
+
+This is an agent-native editorial skill, not a standalone rewrite engine. Codex, Claude Code, OpenCode, or the active host model performs the semantic rewrite. The skill provides the operating contract: quality-first editing, deep voice matching, five-layer AI-pattern diagnosis, specificity and reasoning, and fact-aware rewriting.
+
+When introducing or applying the skill, frame it as a writing-quality workflow:
+
+- make rough or AI-looking drafts clearer, more specific, and more credible
+- preserve the author's real voice when samples or authorized sources exist
+- diagnose both surface AI tells and deeper structural or cognitive emptiness
+- add concrete details and reasoning only when the user supplies the basis
+- verify, soften, mark, or remove factual claims before final output
+
 This skill combines five workflows:
 
 1. **Humanizer pass**: remove common AI-writing patterns across five layers (lexical, phrasal, syntactic, structural, cognitive). See `docs/anti-ai-patterns.md` for the diagnostic catalog. The catalog is layered on top of [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), with structural and cognitive layers added on top.
