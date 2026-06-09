@@ -8,13 +8,71 @@ Use this as a *diagnostic catalog*, not a rules engine. The final rewrite must b
 
 This catalog draws on three sources, layered:
 
-- **[Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)** is the primary lexical and phrasal reference. It catalogs the words, phrases, and structural habits that WikiProject AI Cleanup uses to identify LLM-generated text. Most of the lexical and phrasal entries below are organized around this list, sometimes merged, sometimes split, sometimes extended.
+- **[Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)** is the primary lexical and phrasal reference. It catalogs the words, phrases, and structural habits that WikiProject AI Cleanup uses to identify LLM-generated text. Most of the lexical and phrasal entries below are organized around this list, sometimes merged, sometimes split, sometimes extended. Wikipedia is the authoritative substrate — the patterns it lists are community-maintained, regularly updated, and tied to the editor workflow that actually removes AI-written content from a high-stakes surface. When this catalog diverges from the Wikipedia list (by adding, merging, or splitting a category), the divergence is called out in the entry, not silently introduced.
 - **[blader/humanizer](https://github.com/blader/humanizer)** is the curation and presentation layer. It turns the Wikipedia list into a 30-category rewriting checklist, with the principle "rewrite, don't delete" and a hard default on em dashes and decorative formatting. We borrow the catalog organization and the hard-default philosophy for em dashes and formatting. We *do not* borrow the "must always include editing report" stance as a hard rule, because the report is appropriate when the user asks, not as a default output.
 - **`humanize-skill` adds two layers that the Wikipedia list does not cover**:
   - **Structural and formatting layer** (section 4 below) — heading cadence, bullet-list overuse, intro-body-summary sandwich, decorative formatting, TL;DR-before-content.
   - **Cognitive layer** (section 5 below) — uniform confidence, no stated limits, missing first person, hidden reasoning, generic examples, conflict avoidance, hedging without commitment.
 
 The cognitive layer is the one detector-style tools are most sensitive to. Removing only the Wikipedia-level lexical tells (the "em dashes and contractions" approach) does not get you close to human-looking prose on a high-stakes surface. Treat the structural and cognitive layers as equally important.
+
+## Wikipedia catalog index
+
+The pattern names below are the canonical labels used by [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing) and WikiProject AI Cleanup. Each Wikipedia label is mapped to the local section that diagnoses and fixes it. Use this index as the authoritative cross-reference: when the two diverge, the local section wins for the rewrite, the Wikipedia entry wins for the underlying category. Anchors link to the Wikipedia page sections where the labels are defined; if a label has been merged or renamed upstream, the Wikipedia page is the source of truth, and this catalog follows it.
+
+### Lexical tells (words and phrases)
+
+| Wikipedia label | Local section |
+|---|---|
+| [Significance inflation](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Significance_inflation) — "pivotal", "testament", "landmark", "watershed", "paradigm shift" | [§1.1](#11-significance-inflation) |
+| [Promotional vocabulary](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Promotional_vocabulary) — "groundbreaking", "revolutionary", "cutting-edge", "seamless", "robust" | [§1.2](#12-promotional-vocabulary) |
+| [Vague attribution](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Vague_attribution) — "experts say", "studies show", "widely recognized" | [§1.3](#13-vague-authority) |
+| [AI tells: approval and enthusiasm words](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Communication_tells) — "thrilled", "excited to announce", "proud to share" | [§1.4](#14-approval-and-enthusiasm-words) |
+| [Inflated symbolism or hedging](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Inflated_symbolism) — synonym cycling and "lexical smoothing" | [§1.5](#15-lexical-smoothing) |
+| [Generic intensifiers](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Generic_intensifiers) — "very", "really", "incredibly" | [§1.6](#16-generic-intensifiers) |
+| [Corporate / consulting-deck phrases](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Sycophantic_/_corporate_language) — "delve into", "navigate the landscape", "unlock potential" | [§1.7](#17-corporate-and-product-noun-drift) |
+
+### Communication and chatbot tells
+
+| Wikipedia label | Local section |
+|---|---|
+| [Chatbot residue](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Communication_tells) — "Great question!", "I hope this helps", "Feel free to" | [§2.8](#28-chatbot-residue) |
+| [Filler transitions](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Communication_tells) — "In order to", "Due to the fact that", "It is worth noting that" | [§2.9](#29-filler-transitions) |
+| [Knowledge-cutoff disclaimers](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Communication_tells) — "As of my last update", "as an AI model" | not in catalog — surface-dependent; remove when leaking through, do not introduce |
+
+### Phrasal and structural patterns
+
+| Wikipedia label | Local section |
+|---|---|
+| [Negative parallelism](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "not just X, but Y", "more than just X — it is Y" | [§2.1](#21-negative-parallelism) |
+| [Rule of three / forced trios](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Rule_of_three) — "innovative, scalable, and seamless" | [§2.2](#22-forced-trios), [§3.3](#33-the-rule-of-three-rhythm) |
+| [Universal-audience framing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "Whether you are X or Y", "for teams of 5 or 50,000" | [§2.3](#23-the-whether-you-are-x-or-y-opener), [§5.1](#51-universal-audience-framing) |
+| [False ranges](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "from brainstorming to shipping" | [§2.4](#24-false-ranges) |
+| [Throat-clearing openers](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "In today's rapidly evolving landscape", "In an era defined by" | [§2.5](#25-the-in-todays-world-opener) |
+| [Copula avoidance](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "serves as", "stands as", "boasts" | [§2.6](#26-copula-avoidance) |
+| [Superficial participles](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "showcasing", "highlighting", "underscoring" | [§2.7](#27-superficial-participles) |
+| [Generic conclusions](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "In conclusion", "The future looks bright", "Exciting times lie ahead" | [§2.10](#210-generic-conclusions) |
+
+### Syntactic tells (sentence shape)
+
+| Wikipedia label | Local section |
+|---|---|
+| [Em dash overuse](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Syntactic_tells) | [§3.2](#32-em-dash-dependency) — hard default with voice-profile exception |
+| [Balanced parallelism](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Syntactic_tells) — "we listen, we learn, we deliver" | [§3.1](#31-balanced-parallelism-overuse) |
+| [Uniform sentence length](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Syntactic_tells) | [§3.6](#36-uniform-sentence-length) |
+| [Nominalization](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Syntactic_tells) — verb-to-noun drift | [§3.4](#34-nominalization) |
+| [Perfectly clean sentence boundaries](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Syntactic_tells) — no fragments, no run-ons | [§3.5](#35-perfectly-clean-sentence-boundaries) |
+
+### Structural and cognitive layers (added by humanize-skill)
+
+These layers are *not* on the Wikipedia list. Detector-style tools are most sensitive to them. They are listed here so the catalog index is complete, but they are flagged as additions so a Wikipedia reader does not assume they are upstream content.
+
+| Local label | Where it lives |
+|---|---|
+| H2-every-few-paragraphs, bullet-list as default, intro-body-summary sandwich, decorative formatting, TL;DR-before-content | [§4](#4-structural-layer-paragraph-and-section-shape) |
+| Universal-audience framing (cognitive), uniform confidence, no stated limits, missing first person, no visible thinking, generic examples, conflict avoidance, hedging without commitment | [§5](#5-cognitive-layer-the-deepest-tell) |
+
+If a pattern appears in the Wikipedia list but is not in this index, treat the Wikipedia entry as authoritative and add the gap here in a follow-up revision. The index is meant to be exhaustive, not selective.
 
 ## How to read this catalog
 

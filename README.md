@@ -42,6 +42,36 @@ Underneath all three sits one deeper signal: **specificity**. Concrete numbers, 
 
 `humanize-skill` treats humanization as an editorial pipeline, not a vibe filter.
 
+## Core Features
+
+### 1. Quality-first humanization
+
+The skill improves the draft instead of chasing detector outcomes. It removes hype, filler, vague authority, chatbot residue, and unsupported confidence so the text becomes clearer, more specific, and more credible.
+
+### 2. Deep voice matching
+
+When the user supplies real samples, the skill matches both surface and deep voice signals: rhythm, paragraph shape, diction, punctuation, stance, conclusion ordering, repair, perspective, hedging style, domain vocabulary, and signature tells.
+
+### 3. Five-layer AI-pattern diagnosis
+
+The skill diagnoses AI-looking prose across five layers:
+
+- lexical: inflated words, promotional vocabulary, vague attribution
+- phrasal: memorized templates, negative parallelism, generic openers and closers
+- syntactic: over-balanced clauses, uniform sentence length, em dash dependency
+- structural: heading cadence, bullet-list overuse, intro-body-summary shape
+- cognitive: uniform confidence, hidden reasoning, no stated limits, generic examples, no real stance
+
+The catalog is diagnostic. The final rewrite is semantic editing, not substring deletion.
+
+### 4. Specificity and reasoning pass
+
+The deepest pass turns empty generalities into concrete writing. It looks for numbers, dates, names, places, context, limits, and visible reasoning: the "but", the "because", the "I don't know", the comparison, and the constraint that actually explains the claim.
+
+### 5. Fact-aware rewriting
+
+The skill treats factual claims as editing obligations. Claims are supported, weakened, marked, or removed. This is especially important for product copy, research summaries, health writing, technical docs, legal or financial text, and anything public-facing.
+
 ## Boundary
 
 This skill improves writing quality and factual grounding. It is not designed to bypass AI detectors, and it does not guarantee detector outcomes.
@@ -67,6 +97,8 @@ The two methodologies are not interchangeable. The main workflow is the recommen
 
 **The skill does not recommend, default to, or actively promote the alternative methodology.** The non-goals and the boundary in the section above still apply. If you use the alternative methodology, you take responsibility for the trade-offs — voice loss, style loss, meaning drift, no fact guarantee, and detector drift over time. Do not invoke the alternative methodology unless the user has explicitly asked for it.
 
+## Feature Details
+
 - **AI-pattern cleanup across five layers**: catches lexical, phrasal, syntactic, structural, and *cognitive* tells. The cognitive layer is the one that detector-style tools are most sensitive to. See [docs/anti-ai-patterns.md](./docs/anti-ai-patterns.md).
 - **Deep voice profiling**: matches surface rhythm and the deeper fingerprint — stance, conclusion ordering, repair, perspective, hedge pattern, signature tells. Surface features make prose sound like the rhythm. Deep features make it sound like the *person*. See [docs/voice-profile-deep.md](./docs/voice-profile-deep.md).
 - **Specificity and thought visibility pass**: replaces generic claims with concrete ones (numbers, time, names, place, sensory detail) and surfaces the writer's reasoning on the page (the "but", the "because", the "I don't know", the comparison, the limit). This is the deepest signal that separates generic AI text from a useful rewrite. See [docs/specificity-and-thought.md](./docs/specificity-and-thought.md).
@@ -77,6 +109,49 @@ The two methodologies are not interchangeable. The main workflow is the recommen
 - **Agent-native semantic rewrite**: Codex or Claude does the actual rewrite with context and judgment, not a regex script.
 - **Skill-native workflow**: [SKILL.md](./SKILL.md) is the product, ready to install in Codex/Claude Code/OpenCode-style environments.
 - **Detector-boundary clarity**: improves prose and grounding without claiming or optimizing for AI-detector evasion.
+
+### AI-pattern catalog
+
+The skill's anti-AI work is anchored in [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), the community-maintained catalog that WikiProject AI Cleanup uses to identify LLM-generated text on a high-stakes surface. The catalog below lists the specific patterns the skill diagnoses and rewrites, with Wikipedia anchor links to the canonical labels. The full five-layer catalog — lexical, phrasal, syntactic, structural, and cognitive — with examples, reasons, and fixes per pattern lives in [docs/anti-ai-patterns.md](./docs/anti-ai-patterns.md).
+
+**Lexical tells** — words and short phrases that read as AI through density and clustering:
+
+- [Significance inflation](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Significance_inflation) — "pivotal", "testament", "landmark", "watershed", "paradigm shift".
+- [Promotional vocabulary](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Promotional_vocabulary) — "groundbreaking", "revolutionary", "cutting-edge", "seamless", "robust".
+- [Vague attribution](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Vague_attribution) — "experts say", "studies show", "widely recognized".
+- [Approval and enthusiasm words](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Communication_tells) — "thrilled", "excited to announce", "proud to share".
+- [Lexical smoothing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Inflated_symbolism) — synonym cycling, "tool / platform / solution / ecosystem" in one piece.
+- [Generic intensifiers](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Generic_intensifiers) — "very", "really", "incredibly" stacked on vague nouns.
+- [Corporate and consulting-deck phrases](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Sycophantic_/_corporate_language) — "delve into", "navigate the landscape", "unlock potential".
+
+**Phrasal and structural patterns** — full clauses and templates that read as memorized openings or closers:
+
+- [Negative parallelism](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "not just X, but Y", "more than just X — it is Y".
+- [Rule of three](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Rule_of_three) — three-clause parallelism, three-item lists.
+- [Universal-audience framing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "Whether you are X or Y", "for teams of 5 or 50,000".
+- [Throat-clearing openers](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "In today's rapidly evolving landscape", "In an era defined by".
+- [Copula avoidance](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "serves as", "stands as", "boasts" where "is" or "has" would do.
+- [Superficial participles](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "showcasing", "highlighting", "underscoring" used as decoration.
+- [Generic conclusions](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Phrasal_patterns) — "In conclusion", "The future looks bright", "Exciting times lie ahead".
+
+**Syntactic tells** — how AI builds sentences:
+
+- [Em dash overuse](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Syntactic_tells) — hard default to remove, with a voice-profile exception when the user writes that way.
+- [Balanced parallelism](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Syntactic_tells) — clauses of identical length and structure stacked for emphasis.
+- [Uniform sentence length](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Syntactic_tells) — most sentences 15–25 words, little variation.
+- [Nominalization](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Syntactic_tells) — verb-to-noun drift ("perform an analysis of" instead of "analyze").
+
+**Chatbot residue** — the conversational layer of chat assistants leaking into prose:
+
+- [Chatbot tells](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Communication_tells) — "Great question!", "I hope this helps", "Feel free to", "Let me know if you have any other questions".
+- [Filler transitions](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing#Communication_tells) — "In order to", "Due to the fact that", "It is worth noting that".
+
+**Structural and cognitive layers** — added by humanize-skill because detector-style tools are most sensitive to them. Listed here for completeness, not as Wikipedia content.
+
+- Structural: heading cadence, bullet-list as default, intro-body-summary sandwich, decorative formatting, TL;DR-before-content.
+- Cognitive: uniform confidence, no stated limits, missing first person, hidden reasoning, generic examples, conflict avoidance, hedging without commitment.
+
+The catalog is a *diagnostic aid*. The rewrite is editorial judgment applied to the specific draft, surface, and voice profile. Pattern removal does not guarantee any specific detector outcome.
 
 ## Installation
 
@@ -621,7 +696,7 @@ Validate the skill by running realistic prompts through Codex or Claude and savi
 
 ## Version History
 
-- 0.4.0 - Added three depth docs: a five-layer AI-pattern catalog (`docs/anti-ai-patterns.md`), a deep voice profile (`docs/voice-profile-deep.md`), and a specificity and thought-visibility pass (`docs/specificity-and-thought.md`). The skill workflow in `SKILL.md` now runs four passes (pattern cleanup, voice matching, specificity/thought, fact-check) with the cognitive layer and the deep profile as the strongest signals. No claim, no promise, no optimization for detector outcomes.
+- 0.4.0 - Added the five core feature contract across `SKILL.md`, `README.md`, and `docs/reference-analysis.md`: quality-first humanization, deep voice matching, five-layer AI-pattern diagnosis, specificity and reasoning, and fact-aware rewriting. Also added depth docs for the AI-pattern catalog, deep voice profile, specificity/thought visibility, and a Wikipedia catalog index mapping local sections to canonical labels. No claim, no promise, no optimization for detector outcomes.
 - 0.3.0 - Removed the misleading CLI layer. The skill is now agent-native: Codex or Claude performs the semantic rewrite, with examples documenting real agent runs.
 - 0.2.0 - Added Codex-run examples with saved intermediate artifacts, a new README hero focused on user inputs and fact verification, and README sections modeled after `blader/humanizer`'s install/use/pattern clarity.
 - 0.1.0 - Initial skill workflow with AI-pattern cleanup, voice profiling, local source ingestion, and lightweight fact-checking.

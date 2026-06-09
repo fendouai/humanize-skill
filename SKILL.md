@@ -30,6 +30,18 @@ This skill combines five workflows:
 
 Keep the workflow lightweight. Do not build a service, train a model, or require account connectors unless the user explicitly asks. Prefer pasted samples and local exports.
 
+## Core feature contract
+
+Every run should be organized around these five product promises:
+
+1. **Quality-first humanization** — improve clarity, specificity, credibility, and voice. Do not optimize for detector evasion.
+2. **Deep voice matching** — when samples are available, match not only rhythm and diction but also stance, reasoning style, hedging, perspective, repair, and signature tells.
+3. **Five-layer AI-pattern diagnosis** — diagnose lexical, phrasal, syntactic, structural, and cognitive AI tells. Do not stop at hype-word cleanup.
+4. **Specificity and reasoning pass** — replace empty generalities with real numbers, dates, names, context, limits, and visible "because / but / I don't know" reasoning when the user supplies the basis.
+5. **Fact-aware rewriting** — factual claims must be supported, weakened, marked, or removed. This matters especially for product, research, health, technical, legal, financial, and public-facing text.
+
+If a requested edit conflicts with one of these promises, prefer the promise and explain the trade-off briefly.
+
 ## Non-goals
 
 - Do not present this skill as an AI detector bypass tool.

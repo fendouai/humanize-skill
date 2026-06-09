@@ -92,6 +92,18 @@ The open-source project has four small layers:
 
 There is no CLI layer. The host model performs the semantic rewrite, while the skill supplies the process, guardrails, and artifact shape.
 
+## Core feature contract
+
+The project should keep all documentation, examples, and future implementation notes aligned to five product promises:
+
+1. **Quality-first humanization**: the main workflow improves clarity, specificity, credibility, and voice. It does not promise detector results.
+2. **Deep voice matching**: samples should inform both surface style and deeper writer behavior — stance, ordering, repair, perspective, hedging, domain vocabulary, and signature tells.
+3. **Five-layer AI-pattern diagnosis**: the diagnostic model covers lexical, phrasal, syntactic, structural, and cognitive layers. The cognitive layer matters as much as the visible hype-word layer.
+4. **Specificity and reasoning pass**: generic claims should be replaced by real details and visible reasoning when the user supplies the basis. The skill should never invent specifics to sound human.
+5. **Fact-aware rewriting**: factual claims should be supported, weakened, marked, or removed, with stronger evidence requirements for product, research, health, technical, legal, financial, and public-facing text.
+
+These are not only marketing bullets. They are the completion contract for a successful run.
+
 ## Source ingestion policy
 
 Accept only user-controlled data:
@@ -126,13 +138,14 @@ The skill should never make factual claims more specific during humanization unl
 
 ## Wikipedia: Signs of AI writing
 
-This is the primary lexical and phrasal reference for the AI-pattern catalog in `docs/anti-ai-patterns.md`. It is maintained by WikiProject AI Cleanup as a community-edited catalog of words, phrases, and structural habits that mark LLM-generated text in Wikipedia and similar surfaces.
+This is the primary lexical and phrasal reference for the AI-pattern catalog in `docs/anti-ai-patterns.md`. It is maintained by WikiProject AI Cleanup as a community-edited catalog of words, phrases, and structural habits that mark LLM-generated text in Wikipedia and similar surfaces. The Wikipedia page is the authoritative substrate: when the local catalog and the Wikipedia list disagree, the Wikipedia entry wins for the underlying category, the local section wins for the rewrite. The catalog in `docs/anti-ai-patterns.md` opens with a "Wikipedia catalog index" that maps each local section to its Wikipedia anchor, so the two can be cross-checked section by section.
 
 What to borrow:
 
 - A community-maintained, regularly-updated list of specific tells.
 - The em-dash overuse, significance inflation, vague attribution, and chatbot residue clusters as canonical categories.
 - The "rule of three" structural pattern (paragraphs opening with the same grammatical role, three-clause parallelism, three-item lists).
+- The canonical *labels* themselves as the public-facing vocabulary of the catalog. A user searching for "rule of three" or "significance inflation" should find this skill's entry through the same terms, not a renamed synonym.
 
 What to change:
 
