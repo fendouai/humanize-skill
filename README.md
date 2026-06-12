@@ -40,6 +40,20 @@ It is built from three reference ideas:
 
 The result is deliberately small: no training pipeline, no background service, no mandatory OAuth broker, no model-specific lock-in.
 
+## How This Differs From AI Humanizers
+
+Most AI humanizers sell a paste-in, rewrite-out promise. Many optimize for detector scores, or they hide the method behind generic "make it sound human" wording.
+
+`humanize-skill` takes a different position:
+
+- **Not a detector bypass product**: it does not promise GPTZero, Originality.ai, Turnitin, or other detector outcomes.
+- **Not a regex cleaner**: pattern catalogs diagnose the draft, but Codex or Claude performs the semantic edit.
+- **Not a generic paraphraser**: the rewrite is constrained by the user's target surface, real voice samples, and factual evidence.
+- **Not a fake-personality layer**: it does not add typos, slang, invented anecdotes, or random rhythm to imitate a person.
+- **Not a closed SaaS workflow**: it is a portable skill that can run wherever the host agent can read the instructions and user-approved inputs.
+
+The goal is not to disguise machine text. The goal is to turn a draft into better author text: clearer, more specific, more voiced, and safer to publish.
+
 ## Why this exists
 
 Most "humanize AI" tools only change the surface. They delete em dashes, add contractions, and call it done.
@@ -220,6 +234,20 @@ OpenCode also scans `~/.claude/skills/` for compatibility, so one clone into `~/
 
 The simplest flow is the same as `humanizer`: invoke the skill and paste the text.
 
+## Run Modes
+
+Choose a mode when you know the surface. If you do not choose one, the skill defaults to **Balanced rewrite**.
+
+| Mode | Use when | What changes |
+| --- | --- | --- |
+| **Light cleanup** | The draft is mostly fine but sounds a little AI-shaped | Removes residue, hype, filler, and awkward templates while preserving structure |
+| **Balanced rewrite** | You want the standard quality pass | Applies AI-pattern diagnosis, voice-aware rewriting, specificity, and light claim review |
+| **Deep voice match** | You provide samples or authorized writing sources | Builds a compact voice profile and matches rhythm, stance, reasoning style, hedging, and expression habits |
+| **Fact-aware rewrite** | The text includes product, research, health, technical, legal, financial, or public-facing claims | Extracts claims, checks support, then keeps, weakens, flags, or removes risky statements |
+| **Publication-ready** | The text will ship publicly | Runs the full workflow: voice, five-layer diagnosis, specificity, fact check, final audit, and a compact quality report |
+
+Modes are editorial intensity settings, not detector-evasion settings.
+
 ### Just Paste Text
 
 ```text
@@ -280,6 +308,23 @@ Use humanize-skill on draft.md.
 Use my samples in samples/ and verify claims against evidence/.
 Save the final rewrite and a compact claim table.
 ```
+
+## Quality Report
+
+When the user asks for a report, or when the surface is high-risk, the skill should attach a compact quality report after the rewritten text.
+
+The report uses writing-quality dimensions instead of detector scores:
+
+| Dimension | What it checks |
+| --- | --- |
+| **Clarity** | Is the point easier to understand without losing meaning? |
+| **Specificity** | Did vague claims become concrete only where evidence or user context supports them? |
+| **Voice fidelity** | Does the rewrite match the user's rhythm, stance, vocabulary, and reasoning style when samples exist? |
+| **AI-pattern reduction** | Were lexical, phrasal, syntactic, structural, and cognitive AI-looking patterns addressed semantically? |
+| **Factual support** | Were claims supported, weakened, flagged, or removed? |
+| **Publication risk** | Are there remaining legal, medical, financial, identity, safety, or current-fact risks? |
+
+Default output stays simple: rewritten text first, then a short note only when claims, sources, or important trade-offs matter. The report is an audit trail, not the deliverable.
 
 ## How it works
 
@@ -720,6 +765,7 @@ Validate the skill by running realistic prompts through Codex or Claude and savi
 
 ## Version History
 
+- 0.4.2 - Added Run Modes, Quality Report dimensions, and a competitor-difference section so the skill reads as a quality-first editorial workflow rather than a generic AI-humanizer or detector-bypass product.
 - 0.4.1 - Strengthened the public positioning as a quality-first, agent-native editorial skill and refreshed the README visuals with gpt-image-2 assets that foreground the five core promises.
 - 0.4.0 - Added the five core feature contract across `SKILL.md`, `README.md`, and `docs/reference-analysis.md`: quality-first humanization, deep voice matching, five-layer AI-pattern diagnosis, specificity and reasoning, and fact-aware rewriting. Also added depth docs for the AI-pattern catalog, deep voice profile, specificity/thought visibility, and a Wikipedia catalog index mapping local sections to canonical labels. No claim, no promise, no optimization for detector outcomes.
 - 0.3.0 - Removed the misleading CLI layer. The skill is now agent-native: Codex or Claude performs the semantic rewrite, with examples documenting real agent runs.

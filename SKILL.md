@@ -54,6 +54,30 @@ Every run should be organized around these five product promises:
 
 If a requested edit conflicts with one of these promises, prefer the promise and explain the trade-off briefly.
 
+## Run modes
+
+Infer the mode from the user's request, or ask only when the wrong mode would materially change the output. If no mode is specified, use **Balanced rewrite**.
+
+1. **Light cleanup** — preserve the draft's structure and meaning; remove chatbot residue, hype, filler, awkward templates, and obvious AI-pattern clusters.
+2. **Balanced rewrite** — the default; run AI-pattern diagnosis, voice-aware rewriting, specificity and reasoning, light fact-check, and final audit.
+3. **Deep voice match** — use when the user provides samples, exports, authorized connectors, or asks for "my voice"; build a compact surface and deep voice profile before rewriting.
+4. **Fact-aware rewrite** — use when the draft contains product, research, health, technical, legal, financial, current, public-figure, safety, or other risky claims; prioritize claim extraction, evidence status, and conservative wording.
+5. **Publication-ready** — use when text will ship publicly; run the full workflow and include a compact quality report unless the user asks for final text only.
+
+Modes are editorial-intensity settings, not detector-evasion settings. Do not tune any mode to optimize detector scores.
+
+## How this differs from generic AI humanizers
+
+When explaining the skill or deciding trade-offs, keep this distinction clear:
+
+- It is not a detector bypass product. Do not promise a pass on GPTZero, Originality.ai, Turnitin, or similar tools.
+- It is not a regex cleaner. Pattern catalogs diagnose; the host model performs semantic editing.
+- It is not a generic paraphraser. The rewrite must respect audience, surface, voice samples, and evidence.
+- It is not a fake-personality layer. Do not add typos, slang, invented anecdotes, random rhythm, or artificial awkwardness.
+- It is not a closed SaaS workflow. It should stay portable, local-first where possible, and driven by user-approved inputs.
+
+The working definition of success is: the draft becomes better author text, not better-disguised machine text.
+
 ## Non-goals
 
 - Do not present this skill as an AI detector bypass tool.
@@ -274,6 +298,21 @@ Default output:
 Keep the note compact. Do not bury the rewrite in process unless the user asks.
 
 If the user asks for a report, use the three-section shape (Draft / Still-AI / Final) from step 6. Do not produce the report by default.
+
+## Quality report
+
+Include a compact quality report when the user asks for one, when the selected mode is **Publication-ready**, or when the surface is high-risk. Do not use detector scores as the metric.
+
+Use these dimensions:
+
+- **Clarity**: whether the point is easier to understand without losing meaning.
+- **Specificity**: whether vague claims became concrete only when user context or evidence supports them.
+- **Voice fidelity**: whether rhythm, stance, vocabulary, hedging, and reasoning style match the available profile.
+- **AI-pattern reduction**: whether lexical, phrasal, syntactic, structural, and cognitive patterns were addressed semantically.
+- **Factual support**: whether claims were supported, weakened, flagged, or removed.
+- **Publication risk**: whether legal, medical, financial, identity, safety, current-fact, or public-facing risks remain.
+
+Keep the report short. The rewritten text is the deliverable; the report is the audit trail.
 
 ## Agent-native execution
 
