@@ -24,8 +24,9 @@ It is not designed to bypass AI detectors, and it does not guarantee detector ou
 
 Use it when a draft needs to become clearer, more specific, more faithful to the author, and safer to publish.
 
-The public promise is five-part:
+The public promise combines one reader-strategy layer with five rewrite promises:
 
+- **Audience and cognition mapping**: identify the target reader, what they already know, what new cognition the text can offer, and which author persona should carry it.
 - **Quality-first humanization**: make the draft clearer, more specific, and more credible instead of chasing detector scores.
 - **Deep voice matching**: use real samples to match the author's rhythm, stance, reasoning style, and expression habits.
 - **Five-layer AI-pattern diagnosis**: diagnose lexical, phrasal, syntactic, structural, and cognitive AI-looking patterns.
@@ -70,21 +71,29 @@ Underneath all three sits one deeper signal: **specificity**. Concrete numbers, 
 
 `humanize-skill` treats humanization as an editorial pipeline, not a vibe filter.
 
-## Core Features
+## Core Capabilities
 
 <p align="center">
-  <img src="./assets/humanize-core-features.png" alt="humanize-skill five core features: quality-first humanization, deep voice matching, five-layer diagnosis, specificity and reasoning, fact-aware rewriting" width="100%">
+  <img src="./assets/humanize-core-features.png" alt="humanize-skill five rewrite promises: quality-first humanization, deep voice matching, five-layer diagnosis, specificity and reasoning, fact-aware rewriting" width="100%">
 </p>
 
-### 1. Quality-first humanization
+The image above shows the five rewrite promises. The audience and cognition pass runs before them when reader fit matters.
+
+### 1. Audience and cognition mapping
+
+For articles, landing pages, thought-leadership posts, explainers, and publication-ready drafts, the skill first asks who the text is for. It identifies the target reader, researches or infers what they already know, names the new cognition the piece can add, and chooses an author persona that fits the surface without inventing biography.
+
+The point is simple: a draft is not "human" just because it sounds natural. It has to meet a real reader at the right starting point and give them something they did not already have.
+
+### 2. Quality-first humanization
 
 The skill improves the draft instead of chasing detector outcomes. It removes hype, filler, vague authority, chatbot residue, and unsupported confidence so the text becomes clearer, more specific, and more credible.
 
-### 2. Deep voice matching
+### 3. Deep voice matching
 
 When the user supplies real samples, the skill matches both surface and deep voice signals: rhythm, paragraph shape, diction, punctuation, stance, conclusion ordering, repair, perspective, hedging style, domain vocabulary, and signature tells.
 
-### 3. Five-layer AI-pattern diagnosis
+### 4. Five-layer AI-pattern diagnosis
 
 The skill diagnoses AI-looking prose across five layers:
 
@@ -96,11 +105,11 @@ The skill diagnoses AI-looking prose across five layers:
 
 The catalog is diagnostic. The final rewrite is semantic editing, not substring deletion.
 
-### 4. Specificity and reasoning pass
+### 5. Specificity and reasoning pass
 
 The deepest pass turns empty generalities into concrete writing. It looks for numbers, dates, names, places, context, limits, and visible reasoning: the "but", the "because", the "I don't know", the comparison, and the constraint that actually explains the claim.
 
-### 5. Fact-aware rewriting
+### 6. Fact-aware rewriting
 
 The skill treats factual claims as editing obligations. Claims are supported, weakened, marked, or removed. This is especially important for product copy, research summaries, health writing, technical docs, legal or financial text, and anything public-facing.
 
@@ -132,6 +141,7 @@ The two methodologies are not interchangeable. The main workflow is the recommen
 ## Feature Details
 
 - **AI-pattern cleanup across five layers**: catches lexical, phrasal, syntactic, structural, and *cognitive* tells. The cognitive layer is the one that detector-style tools are most sensitive to. See [docs/anti-ai-patterns.md](./docs/anti-ai-patterns.md).
+- **Audience and cognition mapping**: identifies the target reader, their cognitive starting point, the article's new cognition, and the best author persona before rewriting. See [docs/audience-persona.md](./docs/audience-persona.md).
 - **Deep voice profiling**: matches surface rhythm and the deeper fingerprint — stance, conclusion ordering, repair, perspective, hedge pattern, signature tells. Surface features make prose sound like the rhythm. Deep features make it sound like the *person*. See [docs/voice-profile-deep.md](./docs/voice-profile-deep.md).
 - **Specificity and thought visibility pass**: replaces generic claims with concrete ones (numbers, time, names, place, sensory detail) and surfaces the writer's reasoning on the page (the "but", the "because", the "I don't know", the comparison, the limit). This is the deepest signal that separates generic AI text from a useful rewrite. See [docs/specificity-and-thought.md](./docs/specificity-and-thought.md).
 - **User voice profiling**: learns rhythm, diction, punctuation habits, paragraph shape, technical tone, and recurring vocabulary from local samples.
@@ -242,6 +252,7 @@ Choose a mode when you know the surface. If you do not choose one, the skill def
 | --- | --- | --- |
 | **Light cleanup** | The draft is mostly fine but sounds a little AI-shaped | Removes residue, hype, filler, and awkward templates while preserving structure |
 | **Balanced rewrite** | You want the standard quality pass | Applies AI-pattern diagnosis, voice-aware rewriting, specificity, and light claim review |
+| **Audience strategy** | You are writing an article, landing page, thought-leadership post, or explainer | Finds the target reader, cognitive starting point, new cognition, and fitting author persona before rewriting |
 | **Deep voice match** | You provide samples or authorized writing sources | Builds a compact voice profile and matches rhythm, stance, reasoning style, hedging, and expression habits |
 | **Fact-aware rewrite** | The text includes product, research, health, technical, legal, financial, or public-facing claims | Extracts claims, checks support, then keeps, weakens, flags, or removes risky statements |
 | **Publication-ready** | The text will ship publicly | Runs the full workflow: voice, five-layer diagnosis, specificity, fact check, final audit, and a compact quality report |
@@ -283,6 +294,31 @@ Now humanize this draft and fact-check the claims:
 
 The skill should not block a simple rewrite when no sample is provided. It should use the default voice first, then offer calibration when the user wants stronger personal matching.
 
+### Audience Strategy
+
+When reader fit matters, ask the skill to map the audience before rewriting:
+
+```text
+Use humanize-skill in Audience strategy mode.
+
+Find the target users for this article, search what they already know,
+identify the new cognition this article can provide, choose the best
+author persona, then rewrite the draft.
+
+[paste draft]
+```
+
+The skill should return a compact strategy note:
+
+```text
+Target reader:
+Cognitive starting point:
+New cognition:
+Author persona:
+```
+
+The built-in personas are intentionally specific, but they are writing postures, not fake biographies. The user's real voice still wins when samples are available.
+
 ### Stronger Real-Voice Sources
 
 For a better voice profile, provide local notes, exported posts, chat/email archives, or a connector when your host agent supports one and you explicitly approve it.
@@ -317,6 +353,9 @@ The report uses writing-quality dimensions instead of detector scores:
 
 | Dimension | What it checks |
 | --- | --- |
+| **Audience fit** | Is the target reader specific, and does the text meet their actual situation? |
+| **Cognitive value** | Does the piece add a distinction, decision rule, workflow, warning, or mental model the reader did not already have? |
+| **Persona fit** | Does the author posture match the surface without inventing biography, credentials, or experience? |
 | **Clarity** | Is the point easier to understand without losing meaning? |
 | **Specificity** | Did vague claims become concrete only where evidence or user context supports them? |
 | **Voice fidelity** | Does the rewrite match the user's rhythm, stance, vocabulary, and reasoning style when samples exist? |
@@ -334,8 +373,12 @@ Default output stays simple: rewritten text first, then a short note only when c
 
 ```mermaid
 flowchart LR
-    Draft["AI draft or rough text"] --> Audit["AI-pattern audit"]
+    Draft["AI draft or rough text"] --> Audience["Target reader + cognition"]
+    Search["Search / user context"] --> Audience
+    Audience --> Persona["Author persona"]
+    Audience --> Audit["AI-pattern audit"]
     Samples["User samples / exports"] --> Profile["Voice profile"]
+    Persona --> Rewrite["Humanized rewrite"]
     Profile --> Rewrite["Humanized rewrite"]
     Audit --> Rewrite
     Rewrite --> Claims["Claim extraction"]
@@ -689,7 +732,7 @@ Reply to this email or book a 15-minute demo with the team.
 - [draft](./examples/promotional-blurb/draft.md)
 - [writing sample](./examples/promotional-blurb/sample.txt)
 - [evidence](./examples/promotional-blurb/evidence.md)
-- [Codex run](./examples/promotional-blurb/codex-run.md) — includes the Draft / Still-AI / Final editing report from `SKILL.md` step 6
+- [Codex run](./examples/promotional-blurb/codex-run.md) — includes the Draft / Strategy + Still-AI / Final editing report from `SKILL.md`
 - [final rewrite](./examples/promotional-blurb/final.md)
 - [notes](./examples/promotional-blurb/notes.md)
 
@@ -720,6 +763,7 @@ Host agents should use their own current web/search tools under the rules in [SK
 ├── docs/
 │   ├── reference-analysis.md   # What was borrowed from the five references
 │   ├── source-ingestion.md     # Local-first real-user text ingestion policy
+│   ├── audience-persona.md     # Target reader, cognitive starting point, new cognition, author persona
 │   ├── anti-ai-patterns.md     # Five-layer diagnostic catalog of AI tells
 │   ├── voice-profile-deep.md   # Deep voice axes: stance, ordering, repair, perspective
 │   ├── specificity-and-thought.md  # The deepest pass: concrete claims and visible reasoning
@@ -765,6 +809,7 @@ Validate the skill by running realistic prompts through Codex or Claude and savi
 
 ## Version History
 
+- 0.5.0 - Added the audience/cognition/persona layer: target-reader mapping, searchable cognitive starting point, new-cognition extraction, and built-in author personas with anti-fake-biography guardrails.
 - 0.4.2 - Added Run Modes, Quality Report dimensions, and a competitor-difference section so the skill reads as a quality-first editorial workflow rather than a generic AI-humanizer or detector-bypass product.
 - 0.4.1 - Strengthened the public positioning as a quality-first, agent-native editorial skill and refreshed the README visuals with gpt-image-2 assets that foreground the five core promises.
 - 0.4.0 - Added the five core feature contract across `SKILL.md`, `README.md`, and `docs/reference-analysis.md`: quality-first humanization, deep voice matching, five-layer AI-pattern diagnosis, specificity and reasoning, and fact-aware rewriting. Also added depth docs for the AI-pattern catalog, deep voice profile, specificity/thought visibility, and a Wikipedia catalog index mapping local sections to canonical labels. No claim, no promise, no optimization for detector outcomes.

@@ -1,6 +1,6 @@
 ---
 name: humanize-skill
-description: Rewrite AI-looking drafts in the user's voice, using local samples when available, then check factual claims against evidence before finalizing.
+description: Rewrite AI-looking drafts in the user's voice, using local samples when available, audience/cognition analysis when useful, then check factual claims against evidence before finalizing.
 allowed-tools:
   - Read
   - Write
@@ -32,19 +32,26 @@ When introducing or applying the skill, frame it as a writing-quality workflow:
 - add concrete details and reasoning only when the user supplies the basis
 - verify, soften, mark, or remove factual claims before final output
 
-This skill combines five workflows:
+This skill combines six workflows:
 
-1. **Humanizer pass**: remove common AI-writing patterns across five layers (lexical, phrasal, syntactic, structural, cognitive). See `docs/anti-ai-patterns.md` for the diagnostic catalog. The catalog is layered on top of [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), with structural and cognitive layers added on top.
-2. **Voice profile pass**: match the user's real writing habits from samples or local exports. See `docs/voice-profile-deep.md` for the deep profile axes.
-3. **Specificity and thought visibility pass**: replace generic claims with concrete ones and make the writer's reasoning visible on the page. See `docs/specificity-and-thought.md`.
-4. **Light fact-check pass**: extract claims, verify against evidence and external references, then keep citations or remove uncertainty. See `docs/fact-check.md` for the depth method.
-5. **Soul pass**: after the four mechanical passes, check whether the writer is present on the page — concrete experience, stated position, visible reasoning, acknowledged contradiction, tone variation. See `docs/personality-and-soul.md`. This is the smallest pass in edits and the easiest to fake, so it is conservative by default.
+1. **Audience and cognition pass**: identify the target readers, research or infer their current knowledge, name the new cognition the piece can offer, and choose the best author persona for the surface. See `docs/audience-persona.md`.
+2. **Humanizer pass**: remove common AI-writing patterns across five layers (lexical, phrasal, syntactic, structural, cognitive). See `docs/anti-ai-patterns.md` for the diagnostic catalog. The catalog is layered on top of [Wikipedia: Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), with structural and cognitive layers added on top.
+3. **Voice profile pass**: match the user's real writing habits from samples or local exports. See `docs/voice-profile-deep.md` for the deep profile axes.
+4. **Specificity and thought visibility pass**: replace generic claims with concrete ones and make the writer's reasoning visible on the page. See `docs/specificity-and-thought.md`.
+5. **Light fact-check pass**: extract claims, verify against evidence and external references, then keep citations or remove uncertainty. See `docs/fact-check.md` for the depth method.
+6. **Soul pass**: after the other passes, check whether the writer is present on the page — concrete experience, stated position, visible reasoning, acknowledged contradiction, tone variation. See `docs/personality-and-soul.md`. This is the smallest pass in edits and the easiest to fake, so it is conservative by default.
 
 Keep the workflow lightweight. Do not build a service, train a model, or require account connectors unless the user explicitly asks. Prefer pasted samples and local exports.
 
 ## Core feature contract
 
-Every run should be organized around these five product promises:
+Every substantial run should be organized around one reader-strategy layer plus five product promises.
+
+The reader-strategy layer is:
+
+0. **Audience and cognition mapping** — identify the target reader, their cognitive starting point, the new cognition the piece can offer, and the author persona that best carries it without inventing biography.
+
+The five rewrite promises are:
 
 1. **Quality-first humanization** — improve clarity, specificity, credibility, and voice. Do not optimize for detector evasion.
 2. **Deep voice matching** — when samples are available, match not only rhythm and diction but also stance, reasoning style, hedging, perspective, repair, and signature tells.
@@ -60,9 +67,10 @@ Infer the mode from the user's request, or ask only when the wrong mode would ma
 
 1. **Light cleanup** — preserve the draft's structure and meaning; remove chatbot residue, hype, filler, awkward templates, and obvious AI-pattern clusters.
 2. **Balanced rewrite** — the default; run AI-pattern diagnosis, voice-aware rewriting, specificity and reasoning, light fact-check, and final audit.
-3. **Deep voice match** — use when the user provides samples, exports, authorized connectors, or asks for "my voice"; build a compact surface and deep voice profile before rewriting.
-4. **Fact-aware rewrite** — use when the draft contains product, research, health, technical, legal, financial, current, public-figure, safety, or other risky claims; prioritize claim extraction, evidence status, and conservative wording.
-5. **Publication-ready** — use when text will ship publicly; run the full workflow and include a compact quality report unless the user asks for final text only.
+3. **Audience strategy** — use when reader fit, article value, positioning, landing-page copy, social-post strategy, or thought leadership matters; run the target reader, cognitive starting point, new cognition, and author persona pass before rewriting.
+4. **Deep voice match** — use when the user provides samples, exports, authorized connectors, or asks for "my voice"; build a compact surface and deep voice profile before rewriting.
+5. **Fact-aware rewrite** — use when the draft contains product, research, health, technical, legal, financial, current, public-figure, safety, or other risky claims; prioritize claim extraction, evidence status, and conservative wording.
+6. **Publication-ready** — use when text will ship publicly; run the full workflow and include a compact quality report unless the user asks for final text only.
 
 Modes are editorial-intensity settings, not detector-evasion settings. Do not tune any mode to optimize detector scores.
 
@@ -106,6 +114,8 @@ The user may provide:
 - a file path containing their writing
 - exported account data from social, chat, email, or notes
 - evidence sources for fact checking
+- audience notes, reader research, or examples of the target community
+- preferred author persona, brand voice, or constraints on persona
 - target surface such as tweet, email, README, blog post, product copy, or reply
 
 If the target surface is unclear, infer it from the draft. Ask only when the wrong surface would change the rewrite materially.
@@ -127,7 +137,27 @@ Do not add flair to technical, legal, medical, encyclopedic, or reference text u
 
 If the request is framed as bypassing an AI detector, redirect to a quality-focused rewrite: remove inflated language, preserve the user's actual voice, improve rhythm where it serves readability, surface concrete specifics, make the writer's reasoning visible, and fact-check claims. The same work that makes text *better* also makes it harder to misclassify. The skill does not optimize for the second outcome, but it gets it as a side effect.
 
-### 2. Build a voice profile
+### 2. Map audience, cognition, and author persona
+
+Run this pass when the user asks for strategy, publication readiness, content improvement, article rewriting, landing-page copy, thought leadership, social posts, or any rewrite where reader fit matters. For quick private messages, transactional replies, or tiny edits, keep this pass implicit.
+
+Use `docs/audience-persona.md` for the full method. The short form:
+
+1. **Target reader**: infer who the text is for from topic, vocabulary, use case, promised outcome, and distribution channel. Produce a compact reader persona: role, context, pains, desired outcome, objections, vocabulary, and reading situation.
+2. **Cognitive starting point**: identify what that reader likely already knows. If the user asks for search or the topic is current/market-facing, use web search or provided sources to inspect forums, search results, docs, reviews, social posts, competitor pages, and common beginner/expert questions. Distinguish researched evidence from inference.
+3. **New cognition**: name the actual value the article can add beyond what the reader already knows: a sharper distinction, decision rule, mental model, workflow, warning, evidence synthesis, or concrete next step. If the draft has no new cognition, flag the gap instead of polishing it.
+4. **Author persona**: choose the most fitting author posture. Prefer the user's real voice when samples exist. If no sample exists, choose a concrete built-in persona from `docs/audience-persona.md` and adapt it lightly to the surface. Never invent credentials, personal history, or lived experience.
+
+Keep a compact note of this pass for reports:
+
+```text
+reader: <who this is for>
+starting_point: <what they likely already know; source/inference>
+new_cognition: <what this piece adds>
+author_persona: <chosen posture and constraints>
+```
+
+### 3. Build a voice profile
 
 Accept the lightweight `humanizer`-style flow first: if the user pastes only the draft, humanize it immediately using the natural default voice. Do not interrupt a simple rewrite request just to demand personal samples.
 
@@ -166,7 +196,7 @@ If the user points to account exports, read only what is needed. Summarize style
 
 When no sample is available, use a natural default: direct, varied, specific, and slightly opinionated only where appropriate.
 
-### 3. Remove AI-writing patterns
+### 4. Remove AI-writing patterns
 
 Scan for and fix the catalog in `docs/anti-ai-patterns.md`. The short form of the most common patterns:
 
@@ -199,9 +229,11 @@ When the draft contains unsupported numbers, vague attributions, or promotional 
 - soften claims that are plausible but unverified
 - keep useful concrete facts even if the surrounding sentence sounds AI-generated
 
-### 4. Humanize with the user's profile
+### 5. Humanize with the user's profile and persona
 
-Apply the profile as a constraint:
+Apply the user's profile as the highest-priority voice constraint. When a built-in persona is selected, treat it as an editorial posture, not a fake identity. The persona can shape emphasis, pacing, level of directness, and kind of examples; it cannot add credentials, biography, lived experience, or personal claims.
+
+Apply the profile and persona as constraints:
 
 - If the user writes short, do not produce long polished paragraphs.
 - If the user is plainspoken, do not upgrade every word.
@@ -213,7 +245,7 @@ Apply the profile as a constraint:
 
 Never fake personal experiences, credentials, emotions, or relationships. If the original draft says "I saw", keep it only if the user supplied it.
 
-### 4.5. Apply specificity and thought visibility
+### 6. Apply specificity and thought visibility
 
 This is the deepest pass and the one that most clearly separates a generic rewrite from a useful one. AI text is abstract, uniform, and reasoning-free. Human text is specific, varied, and reasoning-revealing. Closing that gap is what good humanization actually does.
 
@@ -230,7 +262,7 @@ When the draft has invented specifics, remove or soften them. When the user supp
 
 Do not inject specifics that the user did not supply. Do not invent experiences, credentials, or numbers. The point is to surface the *user's* specificity and reasoning, not to invent plausible ones.
 
-### 5. Lightweight fact-check
+### 7. Lightweight fact-check
 
 Run this even when the user mainly asks for tone. See `docs/fact-check.md` for the depth method: claim taxonomy, source hierarchy, time and staleness, conflict protocol, the fix matrix, tool unavailability, and AI's specific factual failure modes. The short form:
 
@@ -264,10 +296,14 @@ For current facts, laws, medical, legal, financial, safety, product specs, prici
 
 The fact-check pass is not a vibes check. It is also not a research project. The goal is to catch the most common AI factual failure modes — invented statistics, fuzzy attributions, anachronisms, confabulated authority, false confidence on speculation, hallucinated quotes, and wrongly attributed identity — and to leave a clean audit trail in `notes.md` for the user to follow.
 
-### 6. Final audit
+### 8. Final audit
 
-Before answering, do a short second pass. The audit is structured as a three-step report — what the *draft* looked like, what the *still-AI* middle state looked like after the four mechanical passes, and what the *final* state is. This is the editing-report shape that the writer can scan to see the call on each load-bearing change.
+Before answering, do a short second pass. The audit is structured as a three-step report — what the *draft* looked like, what the *strategy + still-AI* middle state looked like after audience mapping and the main edit passes, and what the *final* state is. This is the editing-report shape that the writer can scan to see the call on each load-bearing change.
 
+- Is the target reader specific enough?
+- Does the piece meet the reader's cognitive starting point without re-explaining what they already know?
+- Does the final text contain a clear new cognition, not just cleaner wording?
+- Does the author persona feel like a real posture without invented biography?
 - Does any sentence still sound like generic AI copy? (Re-check the cognitive layer in `docs/anti-ai-patterns.md`.)
 - Does the draft pass the substitution test, the deletion test, and the stance test from `docs/specificity-and-thought.md`?
 - Did the rewrite preserve all important content?
@@ -283,7 +319,7 @@ Before answering, do a short second pass. The audit is structured as a three-ste
 When the user asks for a report, or when the surface is high-risk (medical, legal, financial, public figures, identity claims), produce the report in three sections:
 
 1. **Draft** — the patterns and claims that the original draft carried, with the layer or label.
-2. **Still-AI** — the middle state after the four mechanical passes: which patterns are gone, which voice-profile moves held, which claims survived with hedges, which were removed. Anything still in `style_only` or `weak_support` lives here.
+2. **Strategy + Still-AI** — the middle state after audience/cognition mapping and the main edit passes: which reader assumptions were made, what new cognition was chosen, which persona was selected, which patterns are gone, which voice-profile moves held, which claims survived with hedges, and which were removed. Anything still in `style_only` or `weak_support` lives here.
 3. **Final** — the deliverable, with the soul-pass notes and the fact-check summary attached. The final is the text, not the report.
 
 The report is the *audit trail*, not the deliverable. The deliverable is the text. Keep the report compact and skip it entirely when the surface is informal and the user did not ask.
@@ -297,7 +333,7 @@ Default output:
 
 Keep the note compact. Do not bury the rewrite in process unless the user asks.
 
-If the user asks for a report, use the three-section shape (Draft / Still-AI / Final) from step 6. Do not produce the report by default.
+If the user asks for a report, use the three-section shape (Draft / Strategy + Still-AI / Final) from the final audit. Do not produce the report by default.
 
 ## Quality report
 
@@ -305,6 +341,9 @@ Include a compact quality report when the user asks for one, when the selected m
 
 Use these dimensions:
 
+- **Audience fit**: whether the target reader is specific and the rewrite meets their actual situation.
+- **Cognitive value**: whether the piece adds a useful distinction, decision rule, workflow, warning, or mental model.
+- **Persona fit**: whether the author posture matches the surface without invented biography, credentials, or experience.
 - **Clarity**: whether the point is easier to understand without losing meaning.
 - **Specificity**: whether vague claims became concrete only when user context or evidence supports them.
 - **Voice fidelity**: whether rhythm, stance, vocabulary, hedging, and reasoning style match the available profile.
@@ -332,6 +371,6 @@ When running an end-to-end example, save human-readable artifacts rather than to
 - `draft.md`
 - `sample.txt` when a voice sample exists
 - `evidence.md` when factual claims are checked
-- `notes.md` for diagnosis, voice profile, claim decisions, and rewrite choices
+- `notes.md` for audience/cognition mapping, persona choice, diagnosis, voice profile, claim decisions, and rewrite choices
 - `final.md` for the final humanized text
 - `codex-run.md`, `claude-run.md`, or equivalent for the real agent run

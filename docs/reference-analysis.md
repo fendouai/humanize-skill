@@ -94,7 +94,13 @@ There is no CLI layer. The host model performs the semantic rewrite, while the s
 
 ## Core feature contract
 
-The project should keep all documentation, examples, and future implementation notes aligned to five product promises:
+The project should keep all documentation, examples, and future implementation notes aligned to one reader-strategy layer plus five rewrite promises.
+
+The reader-strategy layer is:
+
+0. **Audience and cognition mapping**: identify the target reader, their cognitive starting point, the new cognition the piece can add, and the author persona that best carries the text without inventing biography.
+
+The five rewrite promises are:
 
 1. **Quality-first humanization**: the main workflow improves clarity, specificity, credibility, and voice. It does not promise detector results.
 2. **Deep voice matching**: samples should inform both surface style and deeper writer behavior — stance, ordering, repair, perspective, hedging, domain vocabulary, and signature tells.
@@ -102,19 +108,19 @@ The project should keep all documentation, examples, and future implementation n
 4. **Specificity and reasoning pass**: generic claims should be replaced by real details and visible reasoning when the user supplies the basis. The skill should never invent specifics to sound human.
 5. **Fact-aware rewriting**: factual claims should be supported, weakened, marked, or removed, with stronger evidence requirements for product, research, health, technical, legal, financial, and public-facing text.
 
-These are not only marketing bullets. They are the completion contract for a successful run.
+These are not only marketing bullets. They are the completion contract for a successful run. Audience/cognition mapping should happen before the rewrite when reader fit matters; it should stay implicit for tiny edits and transactional replies.
 
 ## Positioning contract
 
 The project should present itself as a quality-first, agent-native editorial skill:
 
 - **Agent-native**: the host model performs semantic rewriting; the repository supplies instructions, reference docs, examples, and visual explanation.
-- **Quality-first**: success is measured by clarity, specificity, voice fidelity, factual grounding, and reviewability, not by detector scores.
+- **Quality-first**: success is measured by reader fit, cognitive value, clarity, specificity, voice fidelity, factual grounding, and reviewability, not by detector scores.
 - **User-controlled**: real voice and facts come from pasted text, local files, exports, or explicitly authorized connectors.
 - **Evidence-aware**: specific factual claims must have support, a downgraded confidence level, a note, or removal.
 - **Small and portable**: no training pipeline, background service, required OAuth broker, or mandatory CLI layer.
 
-Future README images, examples, and release notes should foreground the five promises above. Avoid visuals or copy that make the project look like a generic "AI detector bypass" product, a regex cleaner, or a full SaaS platform.
+Future README images, examples, and release notes should foreground the reader-strategy layer and the five rewrite promises above. Avoid visuals or copy that make the project look like a generic "AI detector bypass" product, a regex cleaner, or a full SaaS platform.
 
 ## Source ingestion policy
 

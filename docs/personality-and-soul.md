@@ -75,13 +75,13 @@ How to avoid fake personality in the rewrite:
 - **Do not over-perform the user's voice.** If the user swears in 1 of 10 paragraphs, the rewrite swears in 1 of 10. If the user uses "I think" in 3 of 10 sentences, the rewrite uses it in 3 of 10. Frequency matching matters.
 - **When in doubt, write flat.** A flat paragraph is recoverable. A performed paragraph is not.
 
-## Soul and the four-pass workflow
+## Soul and the main workflow
 
-The pattern catalog (anti-ai-patterns) catches the surface. The voice profile (voice-profile-deep) catches the rhythm. The specificity pass (specificity-and-thought) catches the abstraction. The fact-check pass (fact-check) catches the unsupported claims. Soul is what is left to do *after* all four.
+The audience/persona pass aims the piece at a real reader. The pattern catalog (anti-ai-patterns) catches the surface. The voice profile (voice-profile-deep) catches the rhythm. The specificity pass (specificity-and-thought) catches the abstraction. The fact-check pass (fact-check) catches the unsupported claims. Soul is what is left to do after those passes.
 
 In practice, the soul pass is small but decisive:
 
-- After the four passes, read the rewrite aloud. Where does the writer disappear? Where do you feel the construction? Mark those spots.
+- After the main passes, read the rewrite aloud. Where does the writer disappear? Where do you feel the construction? Mark those spots.
 - For each marked spot, ask: is there a concrete experience, a stated position, a visible reasoning chain, an acknowledged contradiction, or a tone variation that would put the writer back on the page? If yes, and if the user has supplied the material, put it in. If yes, but the user has not supplied it, leave a `note: soul-pass` flag in `notes.md` so the user can fill it in. If no, leave the paragraph alone.
 - Re-read. If the writer is now present, the soul pass is done.
 
